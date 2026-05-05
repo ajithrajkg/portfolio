@@ -1,26 +1,32 @@
 export default async function Home() {
-  const res = await fetch(
-    'https://my-strapi-app-1-y20s.onrender.com/api/categories',
-    { cache: 'no-store' }
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/home-page`,
+      { cache: 'no-store' }
+    );
 
-  const data = await res.json();
+    if (!res.ok) {
+      throw new Error(`Failed: ${res.status}`);
+    }
 
-  const categories = data.data || [];
+    const json = await res.json();
+    const page = json.data;
 
-  return (
-    <div>
-      <h1>Categories</h1>
+    return (
+      <div>
+        <h1>Home Page</h1>
 
-      {categories.length === 0 ? (
-        <p>No data found</p>
-      ) : (
-        categories.map((item) => (
-          <p key={item.id}>
-            {item.name || item.attributes?.name}
-          </p>
-        ))
-      )}
-    </div>
-  );
+        {!page ? (
+          <p>No data found</p>
+        ) : (
+          <div>
+            <p>ID: {page.id}</p>
+            <p>Title: {page.title}</p>
+          </div>
+        )}
+      </div>
+    );
+  } catch (error) {
+    return <p>Error: {error.message}</p>;
+  }
 }
