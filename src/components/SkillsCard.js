@@ -40,7 +40,7 @@ const cardVariants = {
 export default function SkillsCard() {
   return (
     <motion.section
-      className="w-full my-24 bg-[#f8fafb] py-20"
+      className="w-full  bg-[#f8fafb] py-20"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
@@ -49,9 +49,8 @@ export default function SkillsCard() {
       <div className="container mx-auto px-6">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] items-start">
           <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-white p-8 shadow-[0_40px_80px_rgba(15,23,42,0.08)]">
-            <span className="inline-flex rounded-full bg-indigo-100 px-4 py-2 text-sm font-semibold text-indigo-700">
-              Skillset Overview
-            </span>
+
+                      <p className="text-sm uppercase tracking-[0.32em] text-slate-500">Skillset Overview</p>
             <h2 className="mt-6 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">
               Modern frontend and design skills for polished digital experiences
             </h2>

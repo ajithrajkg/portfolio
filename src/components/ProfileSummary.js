@@ -23,12 +23,15 @@ const cardVariants = {
 export default function ProfileSummary() {
   return (
     <motion.section
-      className="max-w-5xl mx-auto bg-white p-10 my-16 shadow-[0_20px_50px_rgba(15,23,42,0.06)] rounded-[32px]"
+      className=" mx-auto bg-[#edecec] p-[100px]  "
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       variants={containerVariants}
     >
+      <div className="max-w-5xl mx-auto">
+
+     
       <div className="space-y-10">
         <motion.div variants={cardVariants} className="text-center">
           <p className="text-sm uppercase tracking-[0.32em] text-slate-500">Professional Summary</p>
@@ -41,61 +44,62 @@ export default function ProfileSummary() {
         </motion.div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <motion.div variants={cardVariants} className="rounded-[24px] border border-slate-200 bg-slate-50 p-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Business impact</p>
+          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
+            <p className="text-[20px] font-semibold  text-[#383838]">Business impact</p>
             <ul className="mt-5 space-y-4 text-slate-700">
-              <li>Scalable UI systems aligned to business goals</li>
-              <li>Reliable delivery for enterprise workflows</li>
-              <li>Clear product messaging through design</li>
+              <li className="text-[#71717a]">Scalable UI systems aligned to business goals</li>
+              <li className="text-[#71717a]">Reliable delivery for enterprise workflows</li>
+              <li className="text-[#71717a]">Clear product messaging through design</li>
             </ul>
           </motion.div>
 
-          <motion.div variants={cardVariants} className="rounded-[24px] border border-slate-200 bg-slate-50 p-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Technical strength</p>
+          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
+            <p className="text-[20px] font-semibold  text-[#383838]">Technical strength</p>
             <ul className="mt-5 space-y-4 text-slate-700">
-              <li>Modern frontend with React, Angular, and Next.js</li>
-              <li>Performance-first code and SEO-aware markup</li>
-              <li>Robust UI patterns with reusable components</li>
+              <li className="text-[#71717a]">Modern frontend with React, Angular, and Next.js</li>
+              <li className="text-[#71717a]">Performance-first code and SEO-aware markup</li>
+              <li className="text-[#71717a]">Robust UI patterns with reusable components</li>
             </ul>
           </motion.div>
 
-          <motion.div variants={cardVariants} className="rounded-[24px] border border-slate-200 bg-slate-50 p-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Team delivery</p>
+          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
+            <p className="text-[20px] font-semibold  text-[#383838]">Team delivery</p>
             <ul className="mt-5 space-y-4 text-slate-700">
-              <li>Collaborates smoothly with design and backend teams</li>
-              <li>Fast turnarounds on releases and hotfixes</li>
-              <li>Maintains readable, maintainable codebases</li>
+              <li className="text-[#71717a]">Collaborates smoothly with design and backend teams</li>
+              <li className="text-[#71717a]">Fast turnarounds on releases and hotfixes</li>
+              <li className="text-[#71717a]">Maintains readable, maintainable codebases</li>
             </ul>
           </motion.div>
 
-          <motion.div variants={cardVariants} className="rounded-[24px] border border-slate-200 bg-slate-50 p-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">User experience</p>
+          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
+            <p className="text-[20px] font-semibold  text-[#383838]">User experience</p>
             <ul className="mt-5 space-y-4 text-slate-700">
-              <li>Accessible, responsive, and polished interfaces</li>
-              <li>Strong visual hierarchy for better conversion</li>
-              <li>Product-focused UX with real business value</li>
+              <li className="text-[#71717a]">Accessible, responsive, and polished interfaces</li>
+              <li className="text-[#71717a]">Strong visual hierarchy for better conversion</li>
+              <li className="text-[#71717a]">Product-focused UX with real business value</li>
             </ul>
           </motion.div>
 
-          <motion.div variants={cardVariants} className="rounded-[24px] border border-slate-200 bg-slate-50 p-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Enterprise focus</p>
+          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
+            <p className="text-[20px] font-semibold  text-[#383838]">Enterprise focus</p>
             <ul className="mt-5 space-y-4 text-slate-700">
-              <li>High-quality solutions for large-scale projects</li>
-              <li>Cross-browser compatibility and performance tuning</li>
-              <li>Strong security and production readiness</li>
+              <li className="text-[#71717a]">High-quality solutions for large-scale projects</li>
+              <li className="text-[#71717a]">Cross-browser compatibility and performance tuning</li>
+              <li className="text-[#71717a]">Strong security and production readiness</li>
             </ul>
           </motion.div>
 
-          <motion.div variants={cardVariants} className="rounded-[24px] border border-slate-200 bg-slate-50 p-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Professional style</p>
+          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6">
+            <p className="text-[20px] font-semibold  text-[#383838]">Professional style</p>
             <ul className="mt-5 space-y-4 text-slate-700">
-              <li>Simple, elegant interfaces with a polished feel</li>
-              <li>Consistent visual systems and quality delivery</li>
-              <li>Focused on clarity, usability, and reliability</li>
+              <li className="text-[#71717a]">Simple, elegant interfaces with a polished feel</li>
+              <li className="text-[#71717a]">Consistent visual systems and quality delivery</li>
+              <li className="text-[#71717a]">Focused on clarity, usability, and reliability</li>
             </ul>
           </motion.div>
         </div>
       </div>
+ </div>
     </motion.section>
   );
 }

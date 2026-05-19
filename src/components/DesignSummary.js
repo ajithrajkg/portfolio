@@ -22,7 +22,8 @@ export default function DesignSummary() {
       variants={sectionVariants}
     >
       <motion.div variants={cardVariants} className="mb-8">
-        <p className="text-sm uppercase tracking-[0.3em] text-blue-600">UX/UI Design Summary</p>
+
+                  <p className="text-sm uppercase tracking-[0.32em] text-slate-500">UX/UI Design Summary</p>
         <h2 className="mt-3 text-3xl font-semibold text-slate-900">Creative UX/UI Designer with strong visual experience and AI-driven design workflows</h2>
         <p className="mt-4 text-base leading-8 text-slate-700">
           Creative and detail-oriented UX/UI Designer with a strong foundation in user-centered design principles, specializing in creating intuitive, engaging, and accessible digital experiences. Skilled in designing interactive mockups, product UI/UX workflows, and responsive web layouts using modern design tools like Figma, Adobe XD, and Photoshop. Experienced in leveraging AI-powered design workflows and modern creative tools to accelerate ideation, generate design concepts, improve user experience decisions, and streamline prototyping for faster and smarter product development.
