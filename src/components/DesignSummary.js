@@ -11,6 +11,28 @@ const cardVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 1.1, ease: "easeOut" } },
 };
+const creativeSkills = [
+  "Branding & Logo Creation",
+  "Design Systems & UI Kits",
+  "Visual Identity Design",
+  "Wireframing & Prototyping",
+  "User Interface (UI) Design",
+  "User Experience (UX) Strategy",
+  "Typography & Color Theory",
+  "Creative Direction",
+  "Mobile App Design",
+  "Web & Landing Page Design",
+  "Interactive Prototype Design",
+  "AI-Assisted Design Workflows",
+  "Social Media Creative Design",
+  "Marketing & Promotional Creatives",
+  "Iconography & Visual Assets",
+  "Responsive Design Systems",
+  "Design Thinking & User-Centered Design",
+  "Pixel-Perfect UI Implementation",
+  "Component-Based Design Systems",
+  "Accessibility-Focused Design",
+];
 
 export default function DesignSummary() {
   return (
@@ -79,101 +101,69 @@ export default function DesignSummary() {
   </div>
 </motion.div>
 
-<motion.div variants={cardVariants} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-  <p className="mb-4 text-xl font-semibold text-slate-900">
-    Branding & Creative Skills
-  </p>
+<motion.div
+  variants={cardVariants}
+  whileHover={{ y: -5 }}
+  className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all hover:shadow-xl"
+>
+  <div className="mb-8 flex items-center justify-between">
+    <div>
+      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-600">
+        Design Expertise
+      </p>
 
-  <div className="flex flex-wrap gap-4 text-slate-700">
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Branding & Logo Creation
-    </span>
+      <h3 className="mt-2 text-3xl font-bold text-slate-900">
+        Branding & Creative Skills
+      </h3>
+    </div>
 
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Design Systems & UI Kits
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Visual Identity Design
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Wireframing & Prototyping
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      User Interface (UI) Design
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      User Experience (UX) Strategy
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Typography & Color Theory
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Creative Direction
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Mobile App Design
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Web & Landing Page Design
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Interactive Prototype Design
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      AI-Assisted Design Workflows
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Social Media Creative Design
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Marketing & Promotional Creatives
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Iconography & Visual Assets
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Responsive Design Systems
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Design Thinking & User-Centered Design
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Pixel-Perfect UI Implementation
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Component-Based Design Systems
-    </span>
-
-    <span className="rounded-full bg-slate-100 px-3 py-2 text-sm">
-      Accessibility-Focused Design
-    </span>
+    <div className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+      20+ Skills
+    </div>
   </div>
 
-  <div className="mt-6 rounded-3xl bg-slate-50 p-5">
-    <p className="text-sm font-semibold text-slate-900">
-      Creative Skills
-    </p>
+  <div className="flex flex-wrap gap-3">
+    {creativeSkills.map((skill) => (
+      <motion.span
+        key={skill}
+        whileHover={{
+          scale: 1.05,
+          y: -2,
+        }}
+        className="cursor-default rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-blue-500 hover:bg-blue-600 hover:text-white"
+      >
+        {skill}
+      </motion.span>
+    ))}
+  </div>
 
-    <p className="mt-3 text-sm leading-7 text-slate-700">
-      Mural Painting, Oil Painting, Sketching, Concept Art,
-      Digital Illustration, Visual Storytelling & Creative Exploration
+  <div className="mt-8 rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50 via-slate-50 to-white p-6">
+    <div className="flex items-center gap-3">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-xl text-white">
+        🎨
+      </div>
+
+      <div>
+        <h4 className="text-lg font-semibold text-slate-900">
+          Creative Passion
+        </h4>
+        <p className="text-sm text-slate-500">
+          Art inspires my design thinking.
+        </p>
+      </div>
+    </div>
+
+    <p className="mt-5 leading-8 text-slate-700">
+      Beyond UI development, I enjoy creating visual experiences through
+      <span className="font-semibold text-slate-900"> Mural Painting</span>,
+      <span className="font-semibold text-slate-900"> Oil Painting</span>,
+      <span className="font-semibold text-slate-900"> Sketching</span>,
+      <span className="font-semibold text-slate-900"> Concept Art</span>,
+      <span className="font-semibold text-slate-900"> Digital Illustration</span>,
+      and
+      <span className="font-semibold text-slate-900"> Visual Storytelling</span>.
+      These creative pursuits strengthen my ability to design intuitive,
+      engaging, and visually appealing user experiences.
     </p>
   </div>
 </motion.div>

@@ -24,7 +24,9 @@ export default async function Home() {
           title="Welcome to My Portfolio"
           subtitle="Explore my projects and skills"
           ctaText="Get Started"
-          ctaLink="#projects"
+          ctaLink="#professional-summary"
+          imageSrc="/logo.png"
+          imageAlt="My profile photo"
         />
 
         <ProfileSummary />

@@ -23,7 +23,8 @@ const cardVariants = {
 export default function ProfileSummary() {
   return (
     <motion.section
-      className=" mx-auto bg-[#edecec] p-[100px]  "
+      id="professional-summary"
+      className="mx-auto scroll-mt-24 bg-[#edecec] p-[100px]"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
