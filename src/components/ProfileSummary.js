@@ -1,6 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  BriefcaseBusiness,
+  Code2,
+  Compass,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -8,8 +16,8 @@ const containerVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      staggerChildren: 0.24,
-      duration: 2.2,
+      staggerChildren: 0.14,
+      duration: 1.4,
       ease: "easeOut",
     },
   },
@@ -17,90 +25,117 @@ const containerVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.95, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
 };
+
+const highlights = [
+  {
+    title: "Business impact",
+    icon: BriefcaseBusiness,
+    bullets: [
+      "Scalable UI systems aligned to business goals",
+      "Reliable delivery for enterprise workflows",
+      "Clear product storytelling through interface design",
+    ],
+  },
+  {
+    title: "Technical strength",
+    icon: Code2,
+    bullets: [
+      "Modern frontend development with React and Next.js",
+      "Performance-first code and SEO-aware rendering",
+      "Reusable component systems with maintainable architecture",
+    ],
+  },
+  {
+    title: "Team delivery",
+    icon: Users,
+    bullets: [
+      "Smooth collaboration with design and backend teams",
+      "Fast turnarounds for releases and critical fixes",
+      "Readable, dependable codebases that scale over time",
+    ],
+  },
+  {
+    title: "User experience",
+    icon: Sparkles,
+    bullets: [
+      "Accessible, responsive, and polished interfaces",
+      "Strong visual hierarchy that improves engagement",
+      "Product-focused UX with measurable business value",
+    ],
+  },
+  {
+    title: "Enterprise focus",
+    icon: ShieldCheck,
+    bullets: [
+      "High-quality solutions for large-scale products",
+      "Cross-browser reliability and performance tuning",
+      "Production-ready implementation with strong standards",
+    ],
+  },
+  {
+    title: "Professional style",
+    icon: Compass,
+    bullets: [
+      "Simple, elegant interfaces with a premium feel",
+      "Consistent visual systems and careful craftsmanship",
+      "Focused on clarity, usability, and long-term reliability",
+    ],
+  },
+];
 
 export default function ProfileSummary() {
   return (
     <motion.section
       id="professional-summary"
-      className="mx-auto scroll-mt-24 bg-[#edecec] p-[100px]"
+      className="relative overflow-hidden bg-[linear-gradient(135deg,_#f8fafc_0%,_#eef2ff_50%,_#f8fafc_100%)] px-6 py-24 sm:px-8 lg:px-10"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       variants={containerVariants}
     >
-      <div className="max-w-5xl mx-auto">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(59,130,246,0.14),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(139,92,246,0.14),_transparent_30%)]" />
 
-     
-      <div className="space-y-10">
-        <motion.div variants={cardVariants} className="text-center">
-          <p className="text-sm uppercase tracking-[0.32em] text-slate-500">Professional Summary</p>
-          <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">
-            Reliable frontend leadership for enterprise-grade digital products
+      <div className="relative mx-auto max-w-6xl">
+        <motion.div variants={cardVariants} className="mx-auto max-w-3xl text-center">
+          <p className="inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-slate-600 shadow-sm">
+            Professional Summary
+          </p>
+          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+            Building polished digital experiences with clarity, precision, and impact
           </h2>
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-600">
-            Experienced frontend developer with a strong record of delivering modern, accessible, and polished web applications. I focus on clean architecture, performance, and user-first design, especially in enterprise and collaborative environments.
+          <p className="mx-auto mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+            I create modern, accessible, and high-performing frontend solutions that feel effortless to use and strong in business value.
           </p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
-            <p className="text-[20px] font-semibold  text-[#383838]">Business impact</p>
-            <ul className="mt-5 space-y-4 text-slate-700">
-              <li className="text-[#71717a]">Scalable UI systems aligned to business goals</li>
-              <li className="text-[#71717a]">Reliable delivery for enterprise workflows</li>
-              <li className="text-[#71717a]">Clear product messaging through design</li>
-            </ul>
-          </motion.div>
-
-          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
-            <p className="text-[20px] font-semibold  text-[#383838]">Technical strength</p>
-            <ul className="mt-5 space-y-4 text-slate-700">
-              <li className="text-[#71717a]">Modern frontend with React, Angular, and Next.js</li>
-              <li className="text-[#71717a]">Performance-first code and SEO-aware markup</li>
-              <li className="text-[#71717a]">Robust UI patterns with reusable components</li>
-            </ul>
-          </motion.div>
-
-          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
-            <p className="text-[20px] font-semibold  text-[#383838]">Team delivery</p>
-            <ul className="mt-5 space-y-4 text-slate-700">
-              <li className="text-[#71717a]">Collaborates smoothly with design and backend teams</li>
-              <li className="text-[#71717a]">Fast turnarounds on releases and hotfixes</li>
-              <li className="text-[#71717a]">Maintains readable, maintainable codebases</li>
-            </ul>
-          </motion.div>
-
-          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
-            <p className="text-[20px] font-semibold  text-[#383838]">User experience</p>
-            <ul className="mt-5 space-y-4 text-slate-700">
-              <li className="text-[#71717a]">Accessible, responsive, and polished interfaces</li>
-              <li className="text-[#71717a]">Strong visual hierarchy for better conversion</li>
-              <li className="text-[#71717a]">Product-focused UX with real business value</li>
-            </ul>
-          </motion.div>
-
-          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6 ">
-            <p className="text-[20px] font-semibold  text-[#383838]">Enterprise focus</p>
-            <ul className="mt-5 space-y-4 text-slate-700">
-              <li className="text-[#71717a]">High-quality solutions for large-scale projects</li>
-              <li className="text-[#71717a]">Cross-browser compatibility and performance tuning</li>
-              <li className="text-[#71717a]">Strong security and production readiness</li>
-            </ul>
-          </motion.div>
-
-          <motion.div variants={cardVariants} className="rounded-[10px] border border-slate-200 bg-slate-50 p-6">
-            <p className="text-[20px] font-semibold  text-[#383838]">Professional style</p>
-            <ul className="mt-5 space-y-4 text-slate-700">
-              <li className="text-[#71717a]">Simple, elegant interfaces with a polished feel</li>
-              <li className="text-[#71717a]">Consistent visual systems and quality delivery</li>
-              <li className="text-[#71717a]">Focused on clarity, usability, and reliability</li>
-            </ul>
-          </motion.div>
+        <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {highlights.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.title}
+                variants={cardVariants}
+                className="rounded-2xl border border-slate-200 bg-white/85 p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_50px_rgba(15,23,42,0.12)]"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 text-white shadow-lg">
+                  <Icon size={20} />
+                </div>
+                <h3 className="mt-5 text-xl font-semibold text-slate-900">{item.title}</h3>
+                <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+                  {item.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-2">
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
- </div>
     </motion.section>
   );
 }
