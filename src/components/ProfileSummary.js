@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import {
-  BriefcaseBusiness,
-  Code2,
+  Briefcase,
+  Code,
   Compass,
   ShieldCheck,
   Sparkles,
@@ -31,7 +31,7 @@ const cardVariants = {
 const highlights = [
   {
     title: "Business impact",
-    icon: BriefcaseBusiness,
+    icon: Briefcase,
     bullets: [
       "Scalable UI systems aligned to business goals",
       "Reliable delivery for enterprise workflows",
@@ -40,7 +40,7 @@ const highlights = [
   },
   {
     title: "Technical strength",
-    icon: Code2,
+    icon: Code,
     bullets: [
       "Modern frontend development with React and Next.js",
       "Performance-first code and SEO-aware rendering",
@@ -126,7 +126,7 @@ export default function ProfileSummary() {
                 <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
                   {item.bullets.map((bullet) => (
                     <li key={bullet} className="flex gap-2">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" />
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-400" />
                       <span>{bullet}</span>
                     </li>
                   ))}
