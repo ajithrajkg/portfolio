@@ -25,8 +25,8 @@ export default async function Home() {
           subtitle="Explore my projects and skills"
           ctaText="Get Started"
           ctaLink="#professional-summary"
-          imageSrc="/logo.png"
-          imageAlt="My profile photo"
+          imageSrc="/ajithraj.jpg"
+          imageAlt="Ajith Raj profile photo"
         />
 
         <ProfileSummary />

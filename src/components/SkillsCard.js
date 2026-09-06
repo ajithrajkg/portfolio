@@ -143,11 +143,14 @@ export default function SkillsCard() {
             <h2 className="mt-5 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
               Modern frontend expertise for polished, high-performing digital products
             </h2>
-            <p className="mt-6 text-base leading-8 text-slate-600">
+            <p className="mt-6 text-base leading-7 text-slate-600">
               I build responsive, accessible, and performance-focused interfaces with a strong emphasis on clean architecture, user experience, and scalable UI systems.
             </p>
-            <p className="mt-4 text-base leading-8 text-slate-600">
+            <p className="mt-4 text-base leading-7 text-slate-600">
               From component-driven applications to polished design systems, I create web experiences that feel intuitive, reliable, and business-ready.
+            </p>
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              I’m passionate about creating robust design systems, improving development workflows, and collaborating with designers and developers to deliver high-quality digital products that balance both user needs and business goals.
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
