@@ -10,6 +10,7 @@ export default function Navbar() {
   const isHomeActive = pathname === "/";
   const isGalleryActive = pathname === "/gallery";
   const isAboutActive = pathname === "/about";
+  const isContactActive = pathname === "/contact";
 
   return (
     <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
@@ -41,7 +42,12 @@ export default function Navbar() {
             >
               About Me
             </Link>
-            <Link href="/contact" className="hover:text-blue-600">Contact Us</Link>
+            <Link
+              href="/contact"
+              className={isContactActive ? "text-blue-600" : "hover:text-blue-600"}
+            >
+              Contact Us
+            </Link>
           </div>
 
           {/* Mobile Button */}
@@ -81,7 +87,11 @@ export default function Navbar() {
           >
             About Me
           </Link>
-          <Link href="/contact" onClick={() => setOpen(false)} className="block hover:text-blue-600">
+          <Link
+            href="/contact"
+            onClick={() => setOpen(false)}
+            className={isContactActive ? "block text-blue-600" : "block hover:text-blue-600"}
+          >
             Contact Us
           </Link>
         </div>
