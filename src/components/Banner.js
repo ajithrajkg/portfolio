@@ -36,6 +36,7 @@ export default function Banner({
             alt={imageAlt}
             width={120}
             height={120}
+            unoptimized
             className="h-28 w-28 rounded-full object-cover md:h-32 md:w-32"
           />
         </div>

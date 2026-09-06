@@ -28,6 +28,7 @@ export default function AboutPage() {
                 alt="Ajith Raj profile photo"
                 width={640}
                 height={800}
+                unoptimized
                 className="aspect-[4/5] w-full rounded-[1.5rem] object-cover"
                 priority
               />

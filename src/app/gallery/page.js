@@ -60,6 +60,7 @@ export default function GalleryPage() {
                   src={item.image}
                   alt={item.alt}
                   fill
+                  unoptimized
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
@@ -96,6 +97,7 @@ export default function GalleryPage() {
               src={selectedImage.image}
               alt={selectedImage.alt}
               fill
+                  unoptimized
               sizes="100vw"
               className="object-contain"
               priority
