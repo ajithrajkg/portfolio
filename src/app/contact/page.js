@@ -51,10 +51,10 @@ export default function ContactPage() {
             Contact me
           </p>
           <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight text-slate-950 sm:text-6xl">
-            Let&apos;s talk about your next project.
+            Let&apos;s connect and create something meaningful.
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-8 text-slate-600">
-            Have a project, opportunity, or idea in mind? Send me a message and I&apos;ll get back to you as soon as possible.
+            I&apos;m open to professional conversations about UI design, frontend development, design systems, and creating polished digital experiences with talented teams.
           </p>
           <div className="mt-10 border-l-2 border-blue-600 pl-5 text-sm leading-7 text-slate-600">
             <p className="font-semibold text-slate-900">Ajith Raj</p>

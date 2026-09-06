@@ -3,14 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaLinkedinIn } from "react-icons/fa";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const isHomeActive = pathname === "/";
-  const isGalleryActive = pathname === "/gallery";
-  const isAboutActive = pathname === "/about";
-  const isContactActive = pathname === "/contact";
+  const currentPath = pathname.replace(/\/$/, "") || "/";
+  const isHomeActive = currentPath === "/";
+  const isGalleryActive = currentPath === "/gallery";
+  const isAboutActive = currentPath === "/about";
+  const isContactActive = currentPath === "/contact";
 
   return (
     <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
@@ -19,7 +21,9 @@ export default function Navbar() {
 
           {/* Logo */}
           <div className="text-xl font-bold text-green-600">
-            <img src="/logo.png" alt="Logo" className="w-[68px]" />
+            <Link href="/" aria-label="Go to home page">
+              <img src="/logo.png" alt="Logo" className="w-[68px]" />
+            </Link>
           </div>
 
           {/* Desktop Menu */}
@@ -46,8 +50,18 @@ export default function Navbar() {
               href="/contact"
               className={isContactActive ? "text-blue-600" : "hover:text-blue-600"}
             >
-              Contact Us
+              Contact
             </Link>
+            <a
+              href="https://www.linkedin.com/in/ajithrajkg/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open Ajith Raj's LinkedIn profile"
+              title="LinkedIn"
+              className="text-slate-600 transition-colors hover:text-blue-600"
+            >
+              <FaLinkedinIn size={19} />
+            </a>
           </div>
 
           {/* Mobile Button */}
@@ -92,8 +106,19 @@ export default function Navbar() {
             onClick={() => setOpen(false)}
             className={isContactActive ? "block text-blue-600" : "block hover:text-blue-600"}
           >
-            Contact Us
+            Contact
           </Link>
+          <a
+            href="https://www.linkedin.com/in/ajithrajkg/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open Ajith Raj's LinkedIn profile"
+            title="LinkedIn"
+            className="flex items-center gap-2 text-slate-600 transition-colors hover:text-blue-600"
+          >
+            <FaLinkedinIn size={18} />
+            <span>LinkedIn</span>
+          </a>
         </div>
       )}
     </nav>
