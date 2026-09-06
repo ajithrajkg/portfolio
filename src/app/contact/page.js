@@ -14,7 +14,7 @@ export default function ContactPage() {
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await fetch("https://formsubmit.co/ajax/ajithrajkg007@gmail.com", {
+      const response = await fetch("https://formsubmit.co/ajax/3926a55dae570783f7c829d0ad27828f", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
