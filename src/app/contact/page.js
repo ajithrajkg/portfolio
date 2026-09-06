@@ -14,13 +14,26 @@ export default function ContactPage() {
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await fetch("/__forms.html", {
+      const response = await fetch("https://formsubmit.co/ajax/ajithrajkg007@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString(),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          subject: formData.get("subject"),
+          message: formData.get("message"),
+          _subject: `Portfolio contact: ${formData.get("subject")}`,
+          _template: "table",
+        }),
       });
 
-      if (!response.ok) throw new Error("Form submission failed");
+      const result = await response.json();
+      if (!response.ok || result.success !== "true") {
+        throw new Error("Form submission failed");
+      }
 
       setSubmitted(true);
     } catch {
