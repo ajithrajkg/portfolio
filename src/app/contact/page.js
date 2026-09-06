@@ -4,6 +4,31 @@ import { useState } from "react";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitting(true);
+    setError("");
+
+    try {
+      const formData = new FormData(event.currentTarget);
+      const response = await fetch("/__forms.html", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
+      });
+
+      if (!response.ok) throw new Error("Form submission failed");
+
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again or email me directly.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[linear-gradient(135deg,_#f8fafc_0%,_#eef2ff_48%,_#ffffff_100%)] px-6 py-20 sm:px-8 lg:px-10">
@@ -41,11 +66,7 @@ export default function ContactPage() {
           ) : (
             <form
               name="contact"
-              method="POST"
-              action="/contact?submitted=true"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
-              onSubmit={() => setSubmitted(true)}
+              onSubmit={handleSubmit}
               className="space-y-6"
             >
               <input type="hidden" name="form-name" value="contact" />
@@ -102,10 +123,12 @@ export default function ContactPage() {
 
               <button
                 type="submit"
+                disabled={submitting}
                 className="w-full rounded-xl bg-blue-600 px-6 py-3.5 font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-600/20"
               >
-                Send message
+                {submitting ? "Sending..." : "Send message"}
               </button>
+              {error && <p className="text-sm text-red-600">{error}</p>}
             </form>
           )}
         </section>
