@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaLinkedinIn } from "react-icons/fa";
-import { ChevronDown } from "lucide-react";
+import { Code2, ChevronDown, Palette } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -49,26 +49,31 @@ export default function Navbar() {
             >
               About Me
             </Link>
-            <div className="group relative">
+            <div className="relative">
               <button
                 type="button"
-                aria-expanded="false"
+                onClick={() => setProductsOpen(!productsOpen)}
+                aria-expanded={productsOpen}
                 className={`flex items-center gap-1 ${isProductsActive ? "text-blue-600" : "hover:text-blue-600"}`}
               >
-                Products <ChevronDown size={15} />
+                Products <ChevronDown size={15} className={productsOpen ? "rotate-180" : ""} />
               </button>
-              <div className="invisible absolute left-1/2 top-full z-10 mt-3 w-44 -translate-x-1/2 rounded-lg border border-slate-200 bg-white p-2 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              <div className={`${productsOpen ? "visible opacity-100" : "invisible opacity-0"} absolute left-1/2 top-full z-10 mt-3 grid w-80 -translate-x-1/2 gap-2 rounded-xl border border-slate-200 bg-white p-3 shadow-xl transition`}>
                 <Link
                   href="/products"
-                  className="block rounded-md px-3 py-2 text-sm hover:bg-slate-100 hover:text-blue-600"
+                  onClick={() => setProductsOpen(false)}
+                  className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-blue-200 hover:bg-blue-50"
                 >
-                  Code preview
+                  <Code2 className="mt-0.5 shrink-0 text-blue-600" size={20} />
+                  <span><strong className="block text-sm text-slate-900">Code editor</strong><small className="mt-1 block text-xs font-normal text-slate-500">Write, run, and preview frontend code.</small></span>
                 </Link>
                 <Link
                   href="/asset-tint"
-                  className="block rounded-md px-3 py-2 text-sm hover:bg-slate-100 hover:text-blue-600"
+                  onClick={() => setProductsOpen(false)}
+                  className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-emerald-200 hover:bg-emerald-50"
                 >
-                  Asset tint studio
+                  <Palette className="mt-0.5 shrink-0 text-emerald-600" size={20} />
+                  <span><strong className="block text-sm text-slate-900">Asset tint</strong><small className="mt-1 block text-xs font-normal text-slate-500">Create a reusable color treatment.</small></span>
                 </Link>
               </div>
             </div>

@@ -114,26 +114,6 @@ export default function AssetTintStudio() {
             ))}
           </div>
 
-          <div className="filter-section-heading color-heading">
-            <span>02</span>
-              <div><strong>Choose a tone</strong><small>Paste any hex value</small></div>
-          </div>
-          <div className="color-input-row">
-            <label className="color-swatch" style={{ backgroundColor: activeColor }}>
-              <input type="color" value={activeColor} onChange={(event) => updateColor(event.target.value)} aria-label="Choose target color" />
-            </label>
-            <input
-              className={`hex-input ${normalizedColor ? "" : "has-error"}`}
-              value={color}
-              onChange={(event) => updateColor(event.target.value)}
-              aria-label="Target hex color"
-              spellCheck="false"
-            />
-          </div>
-          <div className="preset-colors" aria-label="Color presets">
-            {presets.map((preset) => <button key={preset} type="button" style={{ backgroundColor: preset }} onClick={() => updateColor(preset)} aria-label={`Use ${preset}`} />)}
-          </div>
-          {!normalizedColor && <p className="color-error">Enter a valid 3 or 6 digit hex color.</p>}
         </div>
 
         <div className="asset-tint-main">
@@ -149,6 +129,29 @@ export default function AssetTintStudio() {
               <div className="icon-preview"><ActiveIcon size={94} strokeWidth={1.35} style={{ filter }} /></div>
               <span className="preview-caption" style={{ color: activeColor }}>{activeColor}</span>
             </div>
+          </div>
+
+          <div className="preview-tone-controls">
+            <div className="filter-section-heading">
+              <span>02</span>
+              <div><strong>Choose a tone</strong><small>Apply it to the tinted result</small></div>
+            </div>
+            <div className="color-input-row">
+              <label className="color-swatch" style={{ backgroundColor: activeColor }}>
+                <input type="color" value={activeColor} onChange={(event) => updateColor(event.target.value)} aria-label="Choose target color" />
+              </label>
+              <input
+                className={`hex-input ${normalizedColor ? "" : "has-error"}`}
+                value={color}
+                onChange={(event) => updateColor(event.target.value)}
+                aria-label="Target hex color"
+                spellCheck="false"
+              />
+            </div>
+            <div className="preset-colors" aria-label="Color presets">
+              {presets.map((preset) => <button key={preset} type="button" style={{ backgroundColor: preset }} onClick={() => updateColor(preset)} aria-label={`Use ${preset}`} />)}
+            </div>
+            {!normalizedColor && <p className="color-error">Enter a valid 3 or 6 digit hex color.</p>}
           </div>
 
           <div className="generated-filter">
