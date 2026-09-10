@@ -64,6 +64,12 @@ export default function Navbar() {
                 >
                   Code preview
                 </Link>
+                <Link
+                  href="/asset-tint"
+                  className="block rounded-md px-3 py-2 text-sm hover:bg-slate-100 hover:text-blue-600"
+                >
+                  Asset tint studio
+                </Link>
               </div>
             </div>
             <Link
@@ -131,16 +137,28 @@ export default function Navbar() {
               Products <ChevronDown size={16} className={productsOpen ? "rotate-180" : ""} />
             </button>
             {productsOpen && (
-              <Link
-                href="/products"
-                onClick={() => {
-                  setOpen(false);
-                  setProductsOpen(false);
-                }}
-                className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
-              >
-                Code preview
-              </Link>
+              <>
+                <Link
+                  href="/products"
+                  onClick={() => {
+                    setOpen(false);
+                    setProductsOpen(false);
+                  }}
+                  className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
+                >
+                  Code preview
+                </Link>
+                <Link
+                  href="/asset-tint"
+                  onClick={() => {
+                    setOpen(false);
+                    setProductsOpen(false);
+                  }}
+                  className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
+                >
+                  Asset tint studio
+                </Link>
+              </>
             )}
           </div>
           <Link
