@@ -4,14 +4,17 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaLinkedinIn } from "react-icons/fa";
+import { ChevronDown } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
   const pathname = usePathname();
   const currentPath = pathname.replace(/\/$/, "") || "/";
   const isHomeActive = currentPath === "/";
   const isGalleryActive = currentPath === "/gallery";
   const isAboutActive = currentPath === "/about";
+  const isProductsActive = currentPath === "/products";
   const isContactActive = currentPath === "/contact";
 
   return (
@@ -46,6 +49,23 @@ export default function Navbar() {
             >
               About Me
             </Link>
+            <div className="group relative">
+              <button
+                type="button"
+                aria-expanded="false"
+                className={`flex items-center gap-1 ${isProductsActive ? "text-blue-600" : "hover:text-blue-600"}`}
+              >
+                Products <ChevronDown size={15} />
+              </button>
+              <div className="invisible absolute left-1/2 top-full z-10 mt-3 w-44 -translate-x-1/2 rounded-lg border border-slate-200 bg-white p-2 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <Link
+                  href="/products"
+                  className="block rounded-md px-3 py-2 text-sm hover:bg-slate-100 hover:text-blue-600"
+                >
+                  Code preview
+                </Link>
+              </div>
+            </div>
             <Link
               href="/contact"
               className={isContactActive ? "text-blue-600" : "hover:text-blue-600"}
@@ -101,6 +121,28 @@ export default function Navbar() {
           >
             About Me
           </Link>
+          <div>
+            <button
+              type="button"
+              onClick={() => setProductsOpen(!productsOpen)}
+              aria-expanded={productsOpen}
+              className={`flex w-full items-center justify-between ${isProductsActive ? "text-blue-600" : "hover:text-blue-600"}`}
+            >
+              Products <ChevronDown size={16} className={productsOpen ? "rotate-180" : ""} />
+            </button>
+            {productsOpen && (
+              <Link
+                href="/products"
+                onClick={() => {
+                  setOpen(false);
+                  setProductsOpen(false);
+                }}
+                className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
+              >
+                Code preview
+              </Link>
+            )}
+          </div>
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
