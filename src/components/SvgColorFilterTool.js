@@ -88,7 +88,7 @@ export default function AssetTintStudio() {
     <main className="asset-tint-page">
       <section className="asset-tint-hero">
         <div className="asset-tint-eyebrow"><Sparkles size={15} /> Asset tint studio</div>
-        <h1>Give your assets a new signal.</h1>
+        <h1 className="text-2xl font-bold">Give your assets a new signal.</h1>
         <p>Select a mark and a destination color. Create a reusable CSS treatment without changing the source artwork.</p>
       </section>
 
