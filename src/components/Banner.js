@@ -27,7 +27,7 @@ export default function Banner({
 
   return (
     <section className="relative isolate overflow-hidden w-full bg-slate-950 text-white py-20 px-6 shadow-2xl min-h-[45rem] flex items-center justify-center">
-      <div className="absolute inset-[-8px] bg-[url('/bg-1.jpg')] bg-cover bg-center blur-[3px]" />
+      <div className="absolute inset-[-8px] bg-[url('/banner.png')] bg-cover bg-center blur-[3px]" />
       <div className="absolute inset-0 bg-slate-950/35" />
       <div className="relative z-10 max-w-4xl rounded-3xl border border-white/10 bg-white/10 px-8 py-12 text-center shadow-2xl backdrop-blur-md sm:px-12 md:px-16">
         <div className="mb-6 mx-auto flex w-fit rounded-full border-4 border-white/80 bg-white/10 p-1 shadow-2xl backdrop-blur-sm">

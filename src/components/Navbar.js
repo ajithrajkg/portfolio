@@ -68,7 +68,7 @@ export default function Navbar() {
                 aria-expanded={productsOpen}
                 className={`flex items-center gap-1 ${isProductsActive ? "text-blue-600" : "hover:text-blue-600"}`}
               >
-                Products <ChevronDown size={15} className={productsOpen ? "rotate-180" : ""} />
+                My Products <ChevronDown size={15} className={productsOpen ? "rotate-180" : ""} />
               </button>
               <div className={`${productsOpen ? "visible opacity-100" : "invisible opacity-0"} absolute left-1/2 top-full z-10 mt-3 grid w-80 -translate-x-1/2 gap-2 rounded-xl border border-slate-200 bg-white p-3 shadow-xl transition`}>
                 <Link

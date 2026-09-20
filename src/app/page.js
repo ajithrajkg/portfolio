@@ -12,8 +12,9 @@ export default function Home() {
         subtitle="Explore my projects and skills"
         ctaText="Get Started"
         ctaLink="#professional-summary"
-        imageSrc="/ajithraj.jpg"
+        imageSrc="/ajith-banner.png"
         imageAlt="Ajith Raj profile photo"
+        showImage={false}
       />
 
       <ProfileSummary />
