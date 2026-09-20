@@ -87,12 +87,11 @@ export default function AssetTintStudio() {
   return (
     <main className="asset-tint-page">
       <section className="asset-tint-hero">
-        <div className="asset-tint-eyebrow"><Sparkles size={15} /> Asset tint studio</div>
-        <h1 className="text-2xl font-bold">Give your assets a new signal.</h1>
+        <h1 className="text-2xl font-bold">Give your SVG assets a new signal.</h1>
         <p>Select a mark and a destination color. Create a reusable CSS treatment without changing the source artwork.</p>
       </section>
 
-      <section className="asset-tint-tool" aria-label="Asset tint studio">
+      <section className="asset-tint-tool" aria-label="SVG Color studio">
         <div className="asset-tint-sidebar">
           <div className="filter-section-heading">
             <span>01</span>
@@ -161,12 +160,6 @@ export default function AssetTintStudio() {
         </div>
       </section>
 
-      <section className="asset-tint-how-it-works">
-        <div><span className="asset-tint-eyebrow">A small transformation</span><h2>Turn one source asset into a flexible palette.</h2></div>
-        <div className="how-it-works-grid">
-          {["Select a source", "Set a tone", "Review the result", "Take the rule"].map((title, index) => <div key={title} className="how-step"><span>0{index + 1}</span><strong>{title}</strong><p>{["Choose a simple mark from the local library.", "Use the native picker or enter a precise hex code.", "Compare the source and treated versions side by side.", "Copy the compact rule into your stylesheet."][index]}</p></div>)}
-        </div>
-      </section>
     </main>
   );
 }

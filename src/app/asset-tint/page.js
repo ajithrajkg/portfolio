@@ -1,10 +1,10 @@
-import AssetTintStudio from "../../components/SvgColorFilterTool";
+import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Asset Tint Studio",
+  title: "SVG Color Studio",
   description: "Create reusable CSS color treatments for source artwork.",
 };
 
 export default function AssetTintPage() {
-  return <AssetTintStudio />;
+  redirect("/svg-color");
 }

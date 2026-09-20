@@ -12,7 +12,7 @@ const starterCode = {
 </main>`,
   css: `:root {
   font-family: system-ui, sans-serif;
-  color: #17332f;
+  color: #121317;
   background: #f5f3ed;
 }
 
@@ -28,10 +28,11 @@ body { margin: 0; }
   box-shadow: 0 24px 60px #17332f18;
 }
 
-.eyebrow { color: #e46d3f; font-weight: 700; }
+.eyebrow { color: #477eff; font-weight: 700; }
+h1, h2, h3, h4 { color: #121317; }
 h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: .95; margin: 18px 0; }
-em { color: #e46d3f; font-style: normal; }
-p { color: #61716d; line-height: 1.7; }
+em { color: #477eff; font-style: normal; }
+p { color: #64736f; line-height: 1.7; }
 button { border: 0; border-radius: 999px; padding: 13px 20px; background: #17332f; color: white; cursor: pointer; }`,
   js: `function sayHello() {
   alert("Hello from your playground!");
@@ -69,8 +70,7 @@ export default function CodePlayground() {
   return (
     <section className="playground-shell">
       <div className="playground-intro">
-        <div>
-          <div className="playground-kicker"><Sparkles size={15} /> Frontend laboratory</div>
+        <div className="mt-[15]">
           <h2 className="text-2xl font-bold">Code, preview, <span>repeat.</span></h2>
           <p>A tiny, friendly space to turn an idea into a working web page.</p>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaLinkedinIn } from "react-icons/fa";
@@ -10,12 +10,24 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const pathname = usePathname();
+  const productsRef = useRef(null);
   const currentPath = pathname.replace(/\/$/, "") || "/";
   const isHomeActive = currentPath === "/";
   const isGalleryActive = currentPath === "/gallery";
   const isAboutActive = currentPath === "/about";
-  const isProductsActive = currentPath === "/products";
+  const isProductsActive = ["/products", "/code-editor", "/svg-color"].includes(currentPath);
   const isContactActive = currentPath === "/contact";
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (productsRef.current && !productsRef.current.contains(event.target)) {
+        setProductsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
@@ -49,7 +61,7 @@ export default function Navbar() {
             >
               About Me
             </Link>
-            <div className="relative">
+            <div ref={productsRef} className="relative">
               <button
                 type="button"
                 onClick={() => setProductsOpen(!productsOpen)}
@@ -60,20 +72,20 @@ export default function Navbar() {
               </button>
               <div className={`${productsOpen ? "visible opacity-100" : "invisible opacity-0"} absolute left-1/2 top-full z-10 mt-3 grid w-80 -translate-x-1/2 gap-2 rounded-xl border border-slate-200 bg-white p-3 shadow-xl transition`}>
                 <Link
-                  href="/products"
+                  href="/code-editor"
                   onClick={() => setProductsOpen(false)}
                   className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-blue-200 hover:bg-blue-50"
                 >
                   <Code2 className="mt-0.5 shrink-0 text-blue-600" size={20} />
-                  <span><strong className="block text-sm text-slate-900">Code editor</strong><small className="mt-1 block text-xs font-normal text-slate-500">Write, run, and preview frontend code.</small></span>
+                  <span><strong className="block text-sm text-slate-900">Code Editor</strong><small className="mt-1 block text-xs font-normal text-slate-500">Write, run, and preview frontend code.</small></span>
                 </Link>
                 <Link
-                  href="/asset-tint"
+                  href="/svg-color"
                   onClick={() => setProductsOpen(false)}
                   className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-emerald-200 hover:bg-emerald-50"
                 >
                   <Palette className="mt-0.5 shrink-0 text-emerald-600" size={20} />
-                  <span><strong className="block text-sm text-slate-900">Asset tint</strong><small className="mt-1 block text-xs font-normal text-slate-500">Create a reusable color treatment.</small></span>
+                  <span><strong className="block text-sm text-slate-900">SVG Color</strong><small className="mt-1 block text-xs font-normal text-slate-500">Create a reusable color treatment.</small></span>
                 </Link>
               </div>
             </div>
@@ -144,24 +156,24 @@ export default function Navbar() {
             {productsOpen && (
               <>
                 <Link
-                  href="/products"
+                  href="/code-editor"
                   onClick={() => {
                     setOpen(false);
                     setProductsOpen(false);
                   }}
                   className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
                 >
-                  Code preview
+                  Code Editor
                 </Link>
                 <Link
-                  href="/asset-tint"
+                  href="/svg-color"
                   onClick={() => {
                     setOpen(false);
                     setProductsOpen(false);
                   }}
                   className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
                 >
-                  Asset tint studio
+                  SVG Color studio
                 </Link>
               </>
             )}

@@ -32,7 +32,7 @@ export default function GalleryPage() {
   }, [selectedImage]);
 
   return (
-    <main className="min-h-screen bg-[#f4f1ec] px-5 py-20 sm:px-8 lg:px-12">
+    <main className="min-h-screen bg-[#f5f5f7] px-5 py-20 sm:px-8 lg:px-12">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-stone-500">
