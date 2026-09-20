@@ -96,7 +96,7 @@ export default function Navbar() {
               Contact
             </Link>
             <a
-              href="www.linkedin.com/in/ajithrajkg"
+              href="https://www.linkedin.com/in/ajithrajkg"
               target="_blank"
               rel="noreferrer"
               aria-label="Open Ajith Raj's LinkedIn profile"
