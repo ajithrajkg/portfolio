@@ -1,0 +1,18 @@
+{
+  "name": "Notepad by Ajith Raj",
+  "short_name": "Notepad",
+  "description": "A private, offline-ready place for your notes.",
+  "start_url": "/notepad/",
+  "scope": "/notepad/",
+  "display": "standalone",
+  "background_color": "#f6f4ef",
+  "theme_color": "#f6f4ef",
+  "icons": [
+    {
+      "src": "/notepad/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

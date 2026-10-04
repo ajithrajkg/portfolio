@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaLinkedinIn } from "react-icons/fa";
-import { Code2, ChevronDown, Palette } from "lucide-react";
+import { Code2, ChevronDown, NotebookPen, Palette } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -15,7 +15,7 @@ export default function Navbar() {
   const isHomeActive = currentPath === "/";
   const isGalleryActive = currentPath === "/gallery";
   const isAboutActive = currentPath === "/about";
-  const isProductsActive = ["/products", "/code-editor", "/svg-color"].includes(currentPath);
+  const isProductsActive = ["/products", "/code-editor", "/svg-color", "/notepad"].includes(currentPath);
   const isContactActive = currentPath === "/contact";
 
   useEffect(() => {
@@ -86,6 +86,14 @@ export default function Navbar() {
                 >
                   <Palette className="mt-0.5 shrink-0 text-emerald-600" size={20} />
                   <span><strong className="block text-sm text-slate-900">SVG Color</strong><small className="mt-1 block text-xs font-normal text-slate-500">Create a reusable color treatment.</small></span>
+                </Link>
+                <Link
+                  href="/notepad"
+                  onClick={() => setProductsOpen(false)}
+                  className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-amber-200 hover:bg-amber-50"
+                >
+                  <NotebookPen className="mt-0.5 shrink-0 text-amber-700" size={20} />
+                  <span><strong className="block text-sm text-slate-900">Download Notepad</strong><small className="mt-1 block text-xs font-normal text-slate-500">Install the offline app on your device.</small></span>
                 </Link>
               </div>
             </div>
@@ -174,6 +182,16 @@ export default function Navbar() {
                   className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
                 >
                   SVG Color studio
+                </Link>
+                <Link
+                  href="/notepad"
+                  onClick={() => {
+                    setOpen(false);
+                    setProductsOpen(false);
+                  }}
+                  className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
+                >
+                  Download Notepad
                 </Link>
               </>
             )}
