@@ -1,0 +1,27 @@
+{
+  "id": "/tracedraw/",
+  "name": "TraceDraw - Trace anything, beautifully",
+  "short_name": "TraceDraw",
+  "description": "A private tracing studio. Align a reference over your camera and trace it on paper.",
+  "start_url": "/tracedraw/",
+  "scope": "/tracedraw/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#151713",
+  "theme_color": "#151713",
+  "categories": ["art", "photo", "utilities"],
+  "icons": [
+    {
+      "src": "/tracedraw/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tracedraw/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

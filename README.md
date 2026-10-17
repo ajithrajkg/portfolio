@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ajith Raj Portfolio and Personal Panchangam
 
-## Getting Started
+This Next.js app includes an installable Malayalam Panchangam at `/panchangam/`.
 
-First, run the development server:
+## Run locally
+
+Requirements: Node.js 20.9 or later and npm.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000/panchangam/`. In the product menu, choose **Personal Panchangam**.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## TraceDraw
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open `http://localhost:3000/tracedraw/` or choose **TraceDraw** from the product menu. Start tracing to request camera access, then import a JPG, PNG, or WebP image. Move it with one finger, pinch to resize, and use the toolbar to adjust opacity, zoom, rotation, and image locking. Recent images are saved in this browser's IndexedDB and are not uploaded.
 
-## Learn More
+Camera access requires the user's permission and a secure context: use `localhost` during development and HTTPS in production. On iOS, open the app in Safari and use Share → **Add to Home Screen**; on Android, choose **Install app** when offered. The TraceDraw app shell and static app assets are cached for offline launches after the route has been opened online once. Camera access still requires a supported browser and device, and the camera is not available offline.
 
-To learn more about Next.js, take a look at the following resources:
+Production build and run:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+No environment variable or paid Panchangam provider is required. `NEXT_PUBLIC_SITE_URL` may optionally be set to the canonical HTTPS origin used for metadata. Both birth and daily locations are restricted to Kerala's 14 districts. Search by the Malayalam or English district name; select a district from the list. Coordinates are district reference points from OpenStreetMap administrative boundaries, not street-level birth locations. The district list and coordinates are bundled locally and work offline.
 
-## Deploy on Vercel
+## How Panchangam data is calculated
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Astronomy Engine supplies geocentric ecliptic longitudes and observer-based sunrise/sunset calculations.
+- Tithi, nakshatra, yoga, karana, Moon sign, and the displayed planetary sign positions are derived from those longitudes using a linearized Lahiri ayanamsa approximation.
+- Rahu Kalam, Yamagandam, Gulika Kalam, Abhijit Muhurtham, and Brahma Muhurtham use traditional weekday/daylight-segment rules. They are labelled as traditional interpretations, not predictions or guaranteed outcomes.
+- Dur Muhurtham, Varjyam, and Amrita Kalam are explicitly shown as unavailable because this app does not have a verified regional rule set/provider for those calculations. No timings are fabricated.
+- Each record keeps the selected location/time zone, calculation timestamp, engine, ayanamsa method, and source metadata. Records older than 24 hours are marked stale and recalculated when the app is online.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The results are intended for informational use. Astrological classifications are traditional beliefs, not scientifically established advice.
+
+## Local privacy, caching, and offline use
+
+- Birth details are saved in browser `localStorage`; Panchangam records are stored in IndexedDB.
+- The app calculates a 92-day window for the selected daily location and keeps a rolling 92-day cache.
+- Use **ഡാറ്റ മായ്ക്കുക** in the dashboard to remove the saved birth profile and Panchangam records from this browser.
+- The service worker caches the app route and its static Next.js assets. Install from the browser's install control when offered. On iOS, use Safari's Share menu and choose **Add to Home Screen**.
+- Offline calculations use the bundled astronomy engine. Place search and new geocoding still require an internet connection.
+
+## Deployment
+
+Deploy as a standard Next.js application with `npm run build` and `npm run start`, or use a compatible Next.js host. Serve the app over HTTPS in production: service workers and PWA installation require a secure context (localhost is permitted for development). Ensure the deployment serves `public/panchangam-sw.js`, `public/panchangam-icon.svg`, `public/tracedraw/sw.js`, `public/tracedraw/icon-192.png`, `public/tracedraw/icon-512.png`, `public/tracedraw/manifest.webmanifest`, and the generated `/manifest.webmanifest` route without rewriting them.

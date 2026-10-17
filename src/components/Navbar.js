@@ -4,21 +4,25 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaLinkedinIn } from "react-icons/fa";
-import { Code2, ChevronDown, NotebookPen, Palette } from "lucide-react";
+import { Code2, ChevronDown, NotebookPen, Palette, Pencil, Sparkles } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [pathnameReady, setPathnameReady] = useState(false);
   const pathname = usePathname();
   const productsRef = useRef(null);
-  const currentPath = pathname.replace(/\/$/, "") || "/";
+  const currentPath = pathnameReady && pathname
+    ? pathname.replace(/\/$/, "") || "/"
+    : "";
   const isHomeActive = currentPath === "/";
   const isGalleryActive = currentPath === "/gallery";
   const isAboutActive = currentPath === "/about";
-  const isProductsActive = ["/products", "/code-editor", "/svg-color", "/notepad"].includes(currentPath);
+  const isProductsActive = ["/products", "/code-editor", "/svg-color", "/notepad", "/panchangam", "/tracedraw"].includes(currentPath);
   const isContactActive = currentPath === "/contact";
 
   useEffect(() => {
+    setPathnameReady(true);
     const handleClickOutside = (event) => {
       if (productsRef.current && !productsRef.current.contains(event.target)) {
         setProductsOpen(false);
@@ -70,32 +74,50 @@ export default function Navbar() {
               >
                 My Products <ChevronDown size={15} className={productsOpen ? "rotate-180" : ""} />
               </button>
-              <div className={`${productsOpen ? "visible opacity-100" : "invisible opacity-0"} absolute left-1/2 top-full z-10 mt-3 grid w-80 -translate-x-1/2 gap-2 rounded-xl border border-slate-200 bg-white p-3 shadow-xl transition`}>
-                <Link
-                  href="/code-editor"
-                  onClick={() => setProductsOpen(false)}
-                  className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-blue-200 hover:bg-blue-50"
-                >
-                  <Code2 className="mt-0.5 shrink-0 text-blue-600" size={20} />
-                  <span><strong className="block text-sm text-slate-900">Code Editor</strong><small className="mt-1 block text-xs font-normal text-slate-500">Write, run, and preview frontend code.</small></span>
-                </Link>
-                <Link
-                  href="/svg-color"
-                  onClick={() => setProductsOpen(false)}
-                  className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-emerald-200 hover:bg-emerald-50"
-                >
-                  <Palette className="mt-0.5 shrink-0 text-emerald-600" size={20} />
-                  <span><strong className="block text-sm text-slate-900">SVG Color</strong><small className="mt-1 block text-xs font-normal text-slate-500">Create a reusable color treatment.</small></span>
-                </Link>
-                <Link
-                  href="/notepad"
-                  onClick={() => setProductsOpen(false)}
-                  className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-amber-200 hover:bg-amber-50"
-                >
-                  <NotebookPen className="mt-0.5 shrink-0 text-amber-700" size={20} />
-                  <span><strong className="block text-sm text-slate-900">Download Notepad</strong><small className="mt-1 block text-xs font-normal text-slate-500">Install the offline app on your device.</small></span>
-                </Link>
-              </div>
+              {productsOpen && (
+                <div className="absolute left-1/2 top-full z-10 mt-3 grid w-80 -translate-x-1/2 gap-2 rounded-xl border border-slate-200 bg-white p-3 shadow-xl">
+                  <Link
+                    href="/code-editor"
+                    onClick={() => setProductsOpen(false)}
+                    className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-blue-200 hover:bg-blue-50"
+                  >
+                    <Code2 className="mt-0.5 shrink-0 text-blue-600" size={20} />
+                    <span><strong className="block text-sm text-slate-900">Code Editor</strong><small className="mt-1 block text-xs font-normal text-slate-500">Write, run, and preview frontend code.</small></span>
+                  </Link>
+                  <Link
+                    href="/svg-color"
+                    onClick={() => setProductsOpen(false)}
+                    className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-emerald-200 hover:bg-emerald-50"
+                  >
+                    <Palette className="mt-0.5 shrink-0 text-emerald-600" size={20} />
+                    <span><strong className="block text-sm text-slate-900">SVG Color</strong><small className="mt-1 block text-xs font-normal text-slate-500">Create a reusable color treatment.</small></span>
+                  </Link>
+                  <Link
+                    href="/notepad"
+                    onClick={() => setProductsOpen(false)}
+                    className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-amber-200 hover:bg-amber-50"
+                  >
+                    <NotebookPen className="mt-0.5 shrink-0 text-amber-700" size={20} />
+                    <span><strong className="block text-sm text-slate-900">Download Notepad</strong><small className="mt-1 block text-xs font-normal text-slate-500">Install the offline app on your device.</small></span>
+                  </Link>
+                  <Link
+                    href="/panchangam"
+                    onClick={() => setProductsOpen(false)}
+                    className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-amber-200 hover:bg-amber-50"
+                  >
+                    <Sparkles className="mt-0.5 shrink-0 text-amber-700" size={20} />
+                    <span><strong className="block text-sm text-slate-900">Personal Panchangam</strong><small className="mt-1 block text-xs font-normal text-slate-500">Your daily Malayalam Panchangam, online or offline.</small></span>
+                  </Link>
+                  <Link
+                    href="/tracedraw"
+                    onClick={() => setProductsOpen(false)}
+                    className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-amber-200 hover:bg-amber-50"
+                  >
+                    <Pencil className="mt-0.5 shrink-0 text-amber-700" size={20} />
+                    <span><strong className="block text-sm text-slate-900">TraceDraw</strong><small className="mt-1 block text-xs font-normal text-slate-500">Trace your favorite images over a live camera view.</small></span>
+                  </Link>
+                </div>
+              )}
             </div>
             <Link
               href="/contact"
@@ -192,6 +214,26 @@ export default function Navbar() {
                   className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
                 >
                   Download Notepad
+                </Link>
+                <Link
+                  href="/panchangam"
+                  onClick={() => {
+                    setOpen(false);
+                    setProductsOpen(false);
+                  }}
+                  className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
+                >
+                  Personal Panchangam
+                </Link>
+                <Link
+                  href="/tracedraw"
+                  onClick={() => {
+                    setOpen(false);
+                    setProductsOpen(false);
+                  }}
+                  className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
+                >
+                  TraceDraw
                 </Link>
               </>
             )}

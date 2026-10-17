@@ -1,0 +1,199 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { addCalendarDays, formatTime, zonedDateTimeToUtc } from "@/lib/panchangam/date-time";
+import type { PanchangamRecord, PeriodKind, TimePeriod } from "@/lib/panchangam/types";
+
+type GraphRow = {
+  id: string;
+  title: string;
+  explanation: string;
+  kind: PeriodKind | "daylight";
+  start: Date;
+  end: Date;
+  isDaylight: boolean;
+};
+
+const COLORS: Record<GraphRow["kind"], string> = {
+  favorable: "#21835b",
+  neutral: "#e3bc4b",
+  inauspicious: "#d35e55",
+  daylight: "#2585c5",
+};
+
+function createRows(record: PanchangamRecord, fullDay: boolean): {
+  rows: GraphRow[];
+  start: Date;
+  end: Date;
+} | null {
+  if (!record.sunrise || !record.sunset) return null;
+  const start = fullDay
+    ? zonedDateTimeToUtc(record.date, 0, 0, record.place.timeZone)
+    : new Date(record.sunrise);
+  const end = fullDay
+    ? zonedDateTimeToUtc(addCalendarDays(record.date, 1), 0, 0, record.place.timeZone)
+    : new Date(record.sunset);
+  const rows: GraphRow[] = [{
+    id: "daylight",
+    title: "സൂര്യോദയം – സൂര്യാസ്തമയം",
+    explanation: "കണക്കാക്കിയ പ്രാദേശിക സൂര്യോദയത്തിനും അസ്തമയത്തിനും ഇടയിലുള്ള സമയം.",
+    kind: "daylight",
+    start: new Date(record.sunrise),
+    end: new Date(record.sunset),
+    isDaylight: true,
+  }];
+
+  for (const period of record.periods) {
+    if (period.id === "daylight") continue;
+    const periodStart = new Date(period.start);
+    const periodEnd = new Date(period.end);
+    if (periodEnd <= start || periodStart >= end) continue;
+    rows.push({
+      id: period.id,
+      title: period.malayalamName,
+      explanation: period.explanation,
+      kind: period.kind,
+      start: new Date(Math.max(periodStart.getTime(), start.getTime())),
+      end: new Date(Math.min(periodEnd.getTime(), end.getTime())),
+      isDaylight: false,
+    });
+  }
+
+  return {
+    start,
+    end,
+    rows: rows.sort((left, right) => (
+      left.isDaylight ? -1 : right.isDaylight ? 1 : left.start.getTime() - right.start.getTime()
+    )),
+  };
+}
+
+type DailyTimeGraphProps = {
+  record: PanchangamRecord;
+  today: boolean;
+};
+
+export default function DailyTimeGraph({ record, today }: DailyTimeGraphProps) {
+  const [fullDay, setFullDay] = useState(false);
+  const [selected, setSelected] = useState<GraphRow | null>(null);
+  const graph = useMemo(() => createRows(record, fullDay), [record, fullDay]);
+  const rangeStart = graph?.start.getTime() ?? 0;
+  const rangeEnd = graph?.end.getTime() ?? rangeStart;
+  const rangeDuration = rangeEnd - rangeStart;
+  const now = Date.now();
+  const nowPosition = rangeDuration ? ((now - rangeStart) / rangeDuration) * 100 : -1;
+  const ticks = graph
+    ? [0, 0.5, 1].map((fraction) => ({
+      fraction,
+      time: new Date(rangeStart + rangeDuration * fraction).toISOString(),
+    }))
+    : [];
+
+  function choosePeriod(row: GraphRow) {
+    if (row.isDaylight) {
+      setSelected(row);
+      return;
+    }
+    const period: TimePeriod | undefined = record.periods.find((item) => item.id === row.id);
+    setSelected(period ? { ...row, explanation: period.explanation } : row);
+  }
+
+  return (
+    <section className="panch-card panch-graph-card" aria-labelledby="time-graph-title">
+      <div className="panch-section-heading">
+        <div>
+          <span className="panch-eyebrow">സമയവിശകലനം</span>
+          <h2 id="time-graph-title">നല്ലതും ശ്രദ്ധിക്കേണ്ടതുമായ സമയം</h2>
+        </div>
+        <label className="panch-toggle">
+          <input type="checkbox" checked={fullDay} onChange={(event) => setFullDay(event.target.checked)} />
+          <span>24 മണിക്കൂർ</span>
+        </label>
+      </div>
+      {graph?.rows.length ? (
+        <>
+          <div className="panch-timeline" aria-label={fullDay ? "24 മണിക്കൂർ സമയരേഖ" : "സൂര്യോദയം മുതൽ അസ്തമയം വരെയുള്ള സമയരേഖ"}>
+            <div className="panch-timeline-rows">
+              {graph.rows.map((row) => {
+                const left = Math.max(
+                  0,
+                  ((row.start.getTime() - rangeStart) / rangeDuration) * 100,
+                );
+                const right = Math.min(
+                  100,
+                  ((row.end.getTime() - rangeStart) / rangeDuration) * 100,
+                );
+                const width = Math.max(0, right - left);
+
+                return (
+                  <button
+                    className={`panch-timeline-row${row.isDaylight ? " is-daylight" : ""}`}
+                    key={row.id}
+                    type="button"
+                    title={`${row.title}: ${formatTime(row.start.toISOString(), record.place.timeZone)} – ${formatTime(row.end.toISOString(), record.place.timeZone)}. ${row.explanation}`}
+                    aria-label={`${row.title}, ${formatTime(row.start.toISOString(), record.place.timeZone)} മുതൽ ${formatTime(row.end.toISOString(), record.place.timeZone)} വരെ. ${row.explanation}`}
+                    onClick={() => choosePeriod(row)}
+                  >
+                    <span className="panch-timeline-track">
+                      <span
+                        className={`panch-timeline-line is-${row.kind}`}
+                        style={{ left: `${left}%`, width: `${width}%`, backgroundColor: COLORS[row.kind] }}
+                      />
+                      {today && nowPosition >= 0 && nowPosition <= 100 && (
+                        <span
+                          className="panch-timeline-now"
+                          style={{ left: `${nowPosition}%` }}
+                          aria-hidden="true"
+                        >
+                          {row.isDaylight && <span>ഇപ്പോൾ</span>}
+                        </span>
+                      )}
+                    </span>
+                    <span className="panch-timeline-label">
+                      <strong>
+                        {formatTime(row.start.toISOString(), record.place.timeZone)}
+                        {" – "}
+                        {formatTime(row.end.toISOString(), record.place.timeZone)}
+                      </strong>
+                      <span>{row.title}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="panch-timeline-axis" aria-hidden="true">
+              <span className="panch-timeline-axis-times">
+                <span>{ticks[0] && formatTime(ticks[0].time, record.place.timeZone)}</span>
+                <span>{ticks[1] && formatTime(ticks[1].time, record.place.timeZone)}</span>
+                <span>{ticks[2] && formatTime(ticks[2].time, record.place.timeZone)}</span>
+              </span>
+              <span />
+            </div>
+          </div>
+          <div className="panch-chart-legend" aria-label="സമയങ്ങളുടെ അടയാളങ്ങൾ">
+            <span><i className="is-favorable" /> ശുഭം</span>
+            <span><i className="is-inauspicious" /> ശ്രദ്ധിക്കേണ്ടത്</span>
+            <span><i className="is-daylight" /> സൂര്യോദയം – അസ്തമയം</span>
+          </div>
+          {selected && (
+            <div className="panch-selected-period" role="status">
+              <button type="button" onClick={() => setSelected(null)} aria-label="Close period details">×</button>
+              <strong>{selected.title}</strong>
+              <span>
+                {formatTime(selected.start.toISOString(), record.place.timeZone)}
+                {" – "}
+                {formatTime(selected.end.toISOString(), record.place.timeZone)}
+              </span>
+              <p>{selected.explanation}</p>
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="panch-empty-state">
+          <strong>സൂര്യോദയ സമയങ്ങൾ കണക്കാക്കാനായില്ല.</strong>
+          <p>ഈ സ്ഥലത്തും തീയതിയിലും സൂര്യോദയം/അസ്തമയം ലഭ്യമല്ല. മറ്റൊരു തീയതിയോ സ്ഥലമോ തിരഞ്ഞെടുക്കുക.</p>
+        </div>
+      )}
+    </section>
+  );
+}
