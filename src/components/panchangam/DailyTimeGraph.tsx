@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { addCalendarDays, formatTime, zonedDateTimeToUtc } from "@/lib/panchangam/date-time";
+import { useEffect, useMemo, useState } from "react";
+import { addCalendarDays, dateInTimeZone, formatTime, zonedDateTimeToUtc } from "@/lib/panchangam/date-time";
 import type { PanchangamRecord, PeriodKind, TimePeriod } from "@/lib/panchangam/types";
 
 type GraphRow = {
@@ -15,10 +15,10 @@ type GraphRow = {
 };
 
 const COLORS: Record<GraphRow["kind"], string> = {
-  favorable: "#21835b",
-  neutral: "#e3bc4b",
-  inauspicious: "#d35e55",
-  daylight: "#2585c5",
+  favorable: "#52bcff",
+  neutral: "#ad7412",
+  inauspicious: "#d0362e",
+  daylight: "#246f9e",
 };
 
 function createRows(record: PanchangamRecord, fullDay: boolean): {
@@ -70,24 +70,34 @@ function createRows(record: PanchangamRecord, fullDay: boolean): {
 
 type DailyTimeGraphProps = {
   record: PanchangamRecord;
-  today: boolean;
 };
 
-export default function DailyTimeGraph({ record, today }: DailyTimeGraphProps) {
+export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
   const [fullDay, setFullDay] = useState(false);
   const [selected, setSelected] = useState<GraphRow | null>(null);
+  const [currentTime, setCurrentTime] = useState<number | null>(null);
   const graph = useMemo(() => createRows(record, fullDay), [record, fullDay]);
   const rangeStart = graph?.start.getTime() ?? 0;
   const rangeEnd = graph?.end.getTime() ?? rangeStart;
   const rangeDuration = rangeEnd - rangeStart;
-  const now = Date.now();
-  const nowPosition = rangeDuration ? ((now - rangeStart) / rangeDuration) * 100 : -1;
+  const now = currentTime === null ? null : new Date(currentTime);
+  const isCurrentDay = now !== null && record.date === dateInTimeZone(now, record.place.timeZone);
+  const nowPosition = isCurrentDay && rangeDuration && now
+    ? ((now.getTime() - rangeStart) / rangeDuration) * 100
+    : -1;
   const ticks = graph
     ? [0, 0.5, 1].map((fraction) => ({
       fraction,
       time: new Date(rangeStart + rangeDuration * fraction).toISOString(),
     }))
     : [];
+
+  useEffect(() => {
+    const updateCurrentTime = () => setCurrentTime(Date.now());
+    updateCurrentTime();
+    const interval = window.setInterval(updateCurrentTime, 15_000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   function choosePeriod(row: GraphRow) {
     if (row.isDaylight) {
@@ -105,10 +115,18 @@ export default function DailyTimeGraph({ record, today }: DailyTimeGraphProps) {
           <span className="panch-eyebrow">സമയവിശകലനം</span>
           <h2 id="time-graph-title">നല്ലതും ശ്രദ്ധിക്കേണ്ടതുമായ സമയം</h2>
         </div>
-        <label className="panch-toggle">
-          <input type="checkbox" checked={fullDay} onChange={(event) => setFullDay(event.target.checked)} />
-          <span>24 മണിക്കൂർ</span>
-        </label>
+        <div className="panch-graph-actions">
+          {now && (
+            <span className="panch-current-time" aria-live="off">
+              <i aria-hidden="true" />
+              ഇപ്പോൾ <time dateTime={now.toISOString()}>{formatTime(now.toISOString(), record.place.timeZone)}</time>
+            </span>
+          )}
+          <label className="panch-toggle">
+            <input type="checkbox" checked={fullDay} onChange={(event) => setFullDay(event.target.checked)} />
+            <span>24 മണിക്കൂർ</span>
+          </label>
+        </div>
       </div>
       {graph?.rows.length ? (
         <>
@@ -127,7 +145,7 @@ export default function DailyTimeGraph({ record, today }: DailyTimeGraphProps) {
 
                 return (
                   <button
-                    className={`panch-timeline-row${row.isDaylight ? " is-daylight" : ""}`}
+                    className={`panch-timeline-row is-${row.kind}${row.isDaylight ? " is-daylight" : ""}`}
                     key={row.id}
                     type="button"
                     title={`${row.title}: ${formatTime(row.start.toISOString(), record.place.timeZone)} – ${formatTime(row.end.toISOString(), record.place.timeZone)}. ${row.explanation}`}
@@ -136,15 +154,20 @@ export default function DailyTimeGraph({ record, today }: DailyTimeGraphProps) {
                   >
                     <span className="panch-timeline-track">
                       <span
-                        className={`panch-timeline-line is-${row.kind}`}
-                        style={{ left: `${left}%`, width: `${width}%`, backgroundColor: COLORS[row.kind] }}
+                        className={`panch-timeline-line is-${row.kind}${row.id === "abhijit" ? " is-abhijit" : ""}`}
+                        style={{
+                          left: `${left}%`,
+                          width: `${width}%`,
+                          backgroundColor: row.id === "abhijit" ? "#14e08e" : COLORS[row.kind],
+                        }}
                       />
-                      {today && nowPosition >= 0 && nowPosition <= 100 && (
+                      {nowPosition >= 0 && nowPosition <= 100 && (
                         <span
                           className="panch-timeline-now"
                           style={{ left: `${nowPosition}%` }}
                           aria-hidden="true"
                         >
+                          <i />
                           {row.isDaylight && <span>ഇപ്പോൾ</span>}
                         </span>
                       )}
@@ -172,6 +195,7 @@ export default function DailyTimeGraph({ record, today }: DailyTimeGraphProps) {
           </div>
           <div className="panch-chart-legend" aria-label="സമയങ്ങളുടെ അടയാളങ്ങൾ">
             <span><i className="is-favorable" /> ശുഭം</span>
+            <span><i className="is-abhijit" /> അഭിജിത് മുഹൂർത്തം</span>
             <span><i className="is-inauspicious" /> ശ്രദ്ധിക്കേണ്ടത്</span>
             <span><i className="is-daylight" /> സൂര്യോദയം – അസ്തമയം</span>
           </div>

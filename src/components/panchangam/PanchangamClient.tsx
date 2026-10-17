@@ -416,7 +416,7 @@ export default function PanchangamClient() {
                   </div>
                 </section>
 
-                <DailyTimeGraph record={record} today={selectedDate === today} />
+                <DailyTimeGraph record={record} />
 
                 <section className="panch-highlight-grid">
                   {record.periods.filter((period) => period.kind === "favorable").map((period) => (

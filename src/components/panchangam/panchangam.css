@@ -645,6 +645,42 @@
   margin-bottom: 15px;
 }
 
+.panch-graph-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.panch-current-time {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #bfd6c9;
+  border-radius: 99px;
+  padding: 0 11px;
+  background: #f0f7f2;
+  color: #315e47;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.panch-current-time > i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #21835b;
+  box-shadow: 0 0 0 0 #21835b44;
+  animation: panch-now-pulse 1.8s ease-out infinite;
+}
+
+.panch-current-time time {
+  color: #173e2b;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
 .panch-section-heading {
   justify-content: space-between;
   gap: 15px;
@@ -678,26 +714,29 @@
 .panch-timeline-rows {
   position: relative;
   display: grid;
-  gap: 7px;
+  gap: 9px;
 }
 
 .panch-timeline-row {
   display: grid;
   min-width: 0;
-  min-height: 29px;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  min-height: 42px;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
   align-items: center;
-  gap: 18px;
-  border: 0;
-  border-radius: 6px;
-  padding: 1px 4px;
-  background: transparent;
+  gap: 16px;
+  border: 1px solid #e0e7ee;
+  border-radius: 9px;
+  padding: 5px 11px;
+  background: #f8fafc;
   text-align: left;
   cursor: pointer;
+  transition: border-color .16s, background-color .16s, box-shadow .16s;
 }
 
 .panch-timeline-row:hover {
-  background: #f8f9f6;
+  border-color: #c6d5e4;
+  background: #f0f5fa;
+  box-shadow: 0 2px 7px #19324b0b;
 }
 
 .panch-timeline-row:focus-visible {
@@ -708,7 +747,7 @@
 .panch-timeline-track {
   position: relative;
   display: block;
-  height: 14px;
+  height: 18px;
   min-width: 0;
 }
 
@@ -755,26 +794,60 @@
   min-width: 0;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 4px 9px;
-  color: #334a5c;
-  font-size: 11px;
-  line-height: 1.5;
+  gap: 3px 9px;
+  color: #23344a;
+  font-family: "Noto Sans Malayalam", "Nirmala UI", "Kartika", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.65;
 }
 
 .panch-timeline-label strong {
-  color: #2982b7;
-  font-family: "Poppins", "Nirmala UI", sans-serif;
-  font-size: 10px;
-  font-weight: 500;
+  color: #1e466a;
+  font-family: "Poppins", "Nirmala UI", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .panch-timeline-label > span {
-  color: #425669;
+  color: #25364b;
 }
 
 .panch-timeline-row.is-daylight .panch-timeline-label > span {
-  color: #2678a8;
+  color: #1f4b6e;
+  font-weight: 600;
+}
+
+.panch-timeline-row.is-inauspicious {
+  border-color: #edcaca;
+  background: #fff8f7;
+}
+
+.panch-timeline-row.is-inauspicious:hover {
+  border-color: #e4aaa6;
+  background: #fff0ee;
+}
+
+.panch-timeline-row.is-inauspicious .panch-timeline-label strong,
+.panch-timeline-row.is-inauspicious .panch-timeline-label > span {
+  color: #d0362e;
+}
+
+.panch-timeline-row.is-abhijit {
+  border-color: #b9efd8;
+  background: #f2fff8;
+}
+
+.panch-timeline-row.is-abhijit:hover {
+  border-color: #80dfb5;
+  background: #e9fff3;
+}
+
+.panch-timeline-row.is-abhijit .panch-timeline-label strong,
+.panch-timeline-row.is-abhijit .panch-timeline-label > span {
+  color: #08784b;
 }
 
 .panch-timeline-now {
@@ -783,17 +856,45 @@
   top: -2px;
   bottom: -2px;
   width: 1px;
-  border-left: 1px dashed #203a52a8;
+  border-left: 1px dashed #203a52b5;
   pointer-events: none;
+  transition: left 15s linear;
+}
+
+.panch-timeline-now > i {
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: #203a52;
+  box-shadow: 0 0 0 0 #203a524a;
+  animation: panch-now-pulse 1.8s ease-out infinite;
+  transform: translateY(-50%);
 }
 
 .panch-timeline-now > span {
   position: absolute;
   top: -15px;
   left: 3px;
-  color: #203a52;
-  font-size: 8px;
+  color: #193e5d;
+  font-size: 10px;
+  font-weight: 700;
   white-space: nowrap;
+}
+
+@keyframes panch-now-pulse {
+  0% {
+    box-shadow: 0 0 0 0 #21835b55;
+  }
+  70% {
+    box-shadow: 0 0 0 6px #21835b00;
+  }
+  100% {
+    box-shadow: 0 0 0 0 #21835b00;
+  }
 }
 
 .panch-timeline-axis {
@@ -806,16 +907,16 @@
 .panch-timeline-axis-times {
   display: flex;
   justify-content: space-between;
-  color: #89918a;
+  color: #58697a;
   font-family: "Poppins", "Nirmala UI", sans-serif;
-  font-size: 8px;
+  font-size: 10px;
 }
 
 .panch-chart-legend {
   gap: 17px;
   margin: 15px 0 3px;
-  color: #78837d;
-  font-size: 9px;
+  color: #4b5968;
+  font-size: 10px;
 }
 
 .panch-chart-legend span {
@@ -831,19 +932,23 @@
 }
 
 .panch-chart-legend .is-favorable {
-  background: #21835b;
+  background: #52bcff;
+}
+
+.panch-chart-legend .is-abhijit {
+  background: #14e08e;
 }
 
 .panch-chart-legend .is-neutral {
-  background: #e3bc4b;
+  background: #ad7412;
 }
 
 .panch-chart-legend .is-inauspicious {
-  background: #d35e55;
+  background: #d0362e;
 }
 
 .panch-chart-legend .is-daylight {
-  background: #2585c5;
+  background: #246f9e;
 }
 
 .panch-selected-period {
@@ -872,15 +977,16 @@
 }
 
 .panch-selected-period strong {
-  color: #34495a;
-  font-size: 11px;
+  color: #253b50;
+  font-size: 13px;
 }
 
 .panch-selected-period span,
 .panch-selected-period p {
   margin-top: 4px;
-  color: #78847c !important;
-  font-size: 9px;
+  color: #526272 !important;
+  font-size: 11px;
+  line-height: 1.6;
 }
 
 .panch-selected-period p {
@@ -1404,13 +1510,29 @@
 @media (prefers-reduced-motion: reduce) {
   .panch-details-overlay,
   .panch-skeleton,
-  .panch-progress-track i {
+  .panch-progress-track i,
+  .panch-current-time > i,
+  .panch-timeline-now > i {
     animation: none;
     transition: none;
   }
 }
 
 @media (max-width: 760px) {
+  .panch-graph-actions {
+    gap: 8px;
+  }
+
+  .panch-current-time {
+    min-height: 29px;
+    padding: 0 8px;
+    font-size: 10px;
+  }
+
+  .panch-current-time time {
+    font-size: 11px;
+  }
+
   .panch-app {
     padding: 18px 16px 35px;
   }
@@ -1496,19 +1618,25 @@
   .panch-timeline-row,
   .panch-timeline-axis {
     grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-    gap: 11px;
+    gap: 10px;
   }
 
   .panch-timeline-row {
-    min-height: 34px;
+    min-height: 40px;
+    padding-right: 8px;
+    padding-left: 8px;
   }
 
   .panch-timeline-label {
     gap: 2px 6px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .panch-timeline-label strong {
+    font-size: 11px;
+  }
+
+  .panch-timeline-axis-times {
     font-size: 9px;
   }
 
@@ -1597,7 +1725,7 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 7px 13px;
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .panch-details-content {
