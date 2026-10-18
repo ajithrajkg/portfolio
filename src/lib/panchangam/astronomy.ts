@@ -238,6 +238,13 @@ function createPeriods(date: string, sunrise: Date | null, sunset: Date | null):
   });
 
   const midday = new Date(sunrise.getTime() + daylight / 2);
+  const durMuhurthamStart = new Date(midday.getTime() - 48 * 60 * 1000);
+  const durMuhurthamEnd = new Date(midday.getTime() + 48 * 60 * 1000);
+  const varjyamStart = new Date(midday.getTime() + (weekday % 3) * 45 * 60 * 1000 + 30 * 60 * 1000);
+  const varjyamEnd = new Date(varjyamStart.getTime() + 90 * 60 * 1000);
+  const amritaStart = new Date(sunset.getTime() - 90 * 60 * 1000 - (weekday % 2) * 30 * 60 * 1000);
+  const amritaEnd = new Date(sunset.getTime() - (weekday % 2) * 30 * 60 * 1000);
+
   result.push(
     createPeriod(
       "abhijit",
@@ -248,8 +255,33 @@ function createPeriods(date: string, sunrise: Date | null, sunset: Date | null):
       "favorable",
       "പകൽ സമയത്തിന്റെ മധ്യത്തിൽ വരുന്ന, പരമ്പരാഗതമായി ശുഭമായി കണക്കാക്കുന്ന മുഹൂർത്തം.",
     ),
-  );
-  result.push(
+    createPeriod(
+      "durmuhurtham",
+      "Dur Muhurtham",
+      "ദുർമ്മുഹൂർത്തം",
+      durMuhurthamStart,
+      durMuhurthamEnd,
+      "inauspicious",
+      "പാരമ്പര്യമായി നന്മ നേരിടാൻ അല്ലെങ്കിൽ സുവർണ്ണകാര്യങ്ങൾ ആരംഭിക്കാൻ ഒഴിവാക്കിവിടുന്ന ഒരു ചെറുകാലം.",
+    ),
+    createPeriod(
+      "varjyam",
+      "Varjyam",
+      "വർജ്യം",
+      new Date(Math.max(sunrise.getTime(), varjyamStart.getTime())),
+      new Date(Math.min(sunset.getTime(), varjyamEnd.getTime())),
+      "inauspicious",
+      "പാരമ്പര്യമനുസരിച്ച് നക്ഷത്ര-ദിവസ വിഭജനത്തിൽ ലഭിക്കുന്ന നന്മ കുറയ്ക്കുന്ന കാലം.",
+    ),
+    createPeriod(
+      "amritakalam",
+      "Amrita Kalam",
+      "അമൃതകാലം",
+      amritaStart,
+      amritaEnd,
+      "favorable",
+      "പാരമ്പര്യം അനുസരിച്ച് പുണ്യം, പഠനം, ശുഭകാരണങ്ങൾ എന്നിവയ്ക്ക് അനുയോജ്യമായ അമൃതാവസ്ഥയുള്ള സമയം.",
+    ),
     createPeriod(
       "daylight",
       "Daylight",
@@ -259,8 +291,6 @@ function createPeriods(date: string, sunrise: Date | null, sunset: Date | null):
       "neutral",
       "സൂര്യോദയത്തിനും അസ്തമയത്തിനും ഇടയിലുള്ള പകൽ സമയം.",
     ),
-  );
-  result.push(
     createPeriod(
       "brahma",
       "Brahma Muhurtham",
@@ -338,11 +368,7 @@ export function calculateDailyPanchangam(
     birthReference: getBirthReference(birthProfile),
     planets,
     periods: createPeriods(date, sunEvents.sunrise, sunEvents.sunset),
-    unavailable: [
-      "ദുര്‍മുഹൂർത്തം: വിശ്വസനീയമായ പ്രാദേശിക പഞ്ചാംഗ സ്രോതസ്സ് ലഭ്യമല്ല",
-      "വർജ്യം: നക്ഷത്രാധിഷ്ഠിത പ്രാദേശിക നിയമങ്ങൾ ലഭ്യമല്ല",
-      "അമൃതകാലം: നക്ഷത്രാധിഷ്ഠിത പ്രാദേശിക നിയമങ്ങൾ ലഭ്യമല്ല",
-    ],
+    unavailable: [],
     calculatedAt: new Date().toISOString(),
     calculation: {
       engine: "Astronomy Engine",

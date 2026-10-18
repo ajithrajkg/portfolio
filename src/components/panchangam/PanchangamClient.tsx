@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
-  ArrowLeft,
   CalendarDays,
-  ChevronLeft,
   ChevronRight,
   Clock3,
   Database,
+  House,
   MapPin,
   Moon,
   ShieldCheck,
@@ -44,10 +43,9 @@ export default function PanchangamClient() {
   const detailsTrigger = useRef<HTMLButtonElement>(null);
   const restoreDetailsFocus = useRef(false);
 
-  const cacheEnd = useMemo(
-    () => (today ? addCalendarDays(today, CACHE_LENGTH_DAYS - 1) : ""),
-    [today],
-  );
+  const selectableDates = today
+    ? Array.from({ length: 7 }, (_, index) => addCalendarDays(today, index))
+    : [];
 
   const calculateAndSave = useCallback(async (selectedProfile: BirthProfile, startDate: string) => {
     setBusy(true);
@@ -160,7 +158,7 @@ export default function PanchangamClient() {
   }, [detailsOpen]);
 
   const loadDate = useCallback(async (date: string) => {
-    if (!profile) return;
+    if (!profile || date < today || date > addCalendarDays(today, 6)) return;
     setSelectedDate(date);
     setError("");
     try {
@@ -189,6 +187,11 @@ export default function PanchangamClient() {
       setBusy(false);
     }
   }, [profile, today]);
+
+  const openPanchangamSetup = useCallback(() => {
+    setEditing(true);
+    setDetailsOpen(false);
+  }, []);
 
   function submitProfile(nextProfile: BirthProfile) {
     try {
@@ -272,7 +275,7 @@ export default function PanchangamClient() {
       <div className="panch-shell">
         <header className="panch-app-header">
           <Link href="/" className="panch-back-link" aria-label="പോർട്ട്ഫോളിയോയിലേക്ക് മടങ്ങുക">
-            <ArrowLeft size={16} />
+            <House size={16} />
             <span>പോർട്ട്ഫോളിയോ</span>
           </Link>
           <div className="panch-app-brand">
@@ -285,8 +288,8 @@ export default function PanchangamClient() {
           <div className="panch-header-actions">
             <PWAInstallButton />
             {profile && !editing && (
-              <button className="panch-icon-button" type="button" onClick={() => setEditing(true)} aria-label="പ്രൊഫൈൽ തിരുത്തുക">
-                <ShieldCheck size={19} />
+              <button className="panch-icon-button" type="button" onClick={openPanchangamSetup} aria-label="പഞ്ചാംഗം ഹോമിലേക്ക് മടങ്ങുക">
+                <House size={19} />
               </button>
             )}
           </div>
@@ -343,31 +346,38 @@ export default function PanchangamClient() {
                 <p>{record ? formatMalayalamDate(selectedDate, record.place.timeZone) : "തീയതി തിരഞ്ഞെടുക്കുക"}</p>
               </div>
               <div className="panch-date-controls">
-                <button
-                  type="button"
-                  aria-label="മുൻ ദിവസം"
-                  disabled={selectedDate <= today}
-                  onClick={() => void loadDate(addCalendarDays(selectedDate, -1))}
-                ><ChevronLeft size={20} /></button>
-                <input
-                  aria-label="പഞ്ചാംഗ തീയതി തിരഞ്ഞെടുക്കുക"
-                  type="date"
-                  min={today}
-                  max={cacheEnd}
-                  value={selectedDate}
-                  onChange={(event) => void loadDate(event.target.value)}
-                />
-                <button
-                  type="button"
-                  aria-label="അടുത്ത ദിവസം"
-                  disabled={selectedDate >= cacheEnd}
-                  onClick={() => void loadDate(addCalendarDays(selectedDate, 1))}
-                ><ChevronRight size={20} /></button>
-                {selectedDate !== today && (
-                  <button className="panch-today-button" type="button" onClick={() => void loadDate(today)}>
-                    ഇന്ന്
-                  </button>
-                )}
+                <span className="panch-date-label">Select your day</span>
+                <div className="panch-day-selector" role="group" aria-label="Select a day for Panchangam">
+                  {selectableDates.map((date) => {
+                    const day = new Date(`${date}T12:00:00Z`);
+                    const weekday = new Intl.DateTimeFormat("ml-IN", {
+                      weekday: "short",
+                      timeZone: "UTC",
+                    }).format(day);
+                    const dayNumber = new Intl.DateTimeFormat("en", {
+                      day: "numeric",
+                      timeZone: "UTC",
+                    }).format(day);
+                    const month = new Intl.DateTimeFormat("ml-IN", {
+                      month: "short",
+                      timeZone: "UTC",
+                    }).format(day);
+                    return (
+                      <button
+                        className={`panch-day-option${selectedDate === date ? " is-selected" : ""}`}
+                        key={date}
+                        type="button"
+                        aria-label={formatMalayalamDate(date, profile?.dailyPlace.timeZone ?? "Asia/Kolkata")}
+                        aria-pressed={selectedDate === date}
+                        onClick={() => void loadDate(date)}
+                      >
+                        <span>{date === today ? "ഇന്ന്" : weekday}</span>
+                        <strong>{dayNumber}</strong>
+                        <small>{month}</small>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </section>
 
@@ -389,34 +399,36 @@ export default function PanchangamClient() {
                     )}
                   </div>
                 )}
-                <section className="panch-summary-card">
-                  <div className="panch-summary-main">
-                    <span className="panch-summary-date"><Moon size={17} /> {formatMalayalamDate(selectedDate, record.place.timeZone)}</span>
-                    <h2>{record.tithi.value}</h2>
-                    <p>ഇന്നത്തെ തിഥി</p>
-                  </div>
-                  <div className="panch-summary-divider" />
-                  <div className="panch-summary-item">
-                    <span><SparkleIcon /></span>
-                    <div><strong>{record.nakshatra.value}</strong><small>നക്ഷത്രം</small></div>
-                  </div>
-                  <div className="panch-summary-item">
-                    <span><Sun size={20} /></span>
-                    <div>
-                      <strong>{formatTime(record.sunrise, record.place.timeZone)}</strong>
-                      <small>സൂര്യോദയം</small>
+                <div className="panch-dashboard-priority">
+                  <section className="panch-summary-card">
+                    <div className="panch-summary-main">
+                      <span className="panch-summary-date"><Moon size={17} /> {formatMalayalamDate(selectedDate, record.place.timeZone)}</span>
+                      <h2>{record.tithi.value}</h2>
+                      <p>ഇന്നത്തെ തിഥി</p>
                     </div>
-                  </div>
-                  <div className="panch-summary-item">
-                    <span><Sun size={20} /></span>
-                    <div>
-                      <strong>{formatTime(record.sunset, record.place.timeZone)}</strong>
-                      <small>സൂര്യാസ്തമയം</small>
+                    <div className="panch-summary-divider" />
+                    <div className="panch-summary-item">
+                      <span><SparkleIcon /></span>
+                      <div><strong>{record.nakshatra.value}</strong><small>നക്ഷത്രം</small></div>
                     </div>
-                  </div>
-                </section>
+                    <div className="panch-summary-item">
+                      <span><Sun size={20} /></span>
+                      <div>
+                        <strong>{formatTime(record.sunrise, record.place.timeZone)}</strong>
+                        <small>സൂര്യോദയം</small>
+                      </div>
+                    </div>
+                    <div className="panch-summary-item">
+                      <span><Sun size={20} /></span>
+                      <div>
+                        <strong>{formatTime(record.sunset, record.place.timeZone)}</strong>
+                        <small>സൂര്യാസ്തമയം</small>
+                      </div>
+                    </div>
+                  </section>
 
-                <DailyTimeGraph record={record} />
+                  <DailyTimeGraph record={record} />
+                </div>
 
                 <section className="panch-highlight-grid">
                   {record.periods.filter((period) => period.kind === "favorable").map((period) => (

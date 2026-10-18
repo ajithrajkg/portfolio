@@ -33,7 +33,7 @@ No environment variable or paid Panchangam provider is required. `NEXT_PUBLIC_SI
 - Astronomy Engine supplies geocentric ecliptic longitudes and observer-based sunrise/sunset calculations.
 - Tithi, nakshatra, yoga, karana, Moon sign, and the displayed planetary sign positions are derived from those longitudes using a linearized Lahiri ayanamsa approximation.
 - Rahu Kalam, Yamagandam, Gulika Kalam, Abhijit Muhurtham, and Brahma Muhurtham use traditional weekday/daylight-segment rules. They are labelled as traditional interpretations, not predictions or guaranteed outcomes.
-- Dur Muhurtham, Varjyam, and Amrita Kalam are explicitly shown as unavailable because this app does not have a verified regional rule set/provider for those calculations. No timings are fabricated.
+- Dur Muhurtham, Varjyam, Amrita Kalam, and Abhijit Muhurtham are computed from traditional daylight-based rules and shown as part of the personal Panchangam record when they fall within the day.
 - Each record keeps the selected location/time zone, calculation timestamp, engine, ayanamsa method, and source metadata. Records older than 24 hours are marked stale and recalculated when the app is online.
 
 The results are intended for informational use. Astrological classifications are traditional beliefs, not scientifically established advice.

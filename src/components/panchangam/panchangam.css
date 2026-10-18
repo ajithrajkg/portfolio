@@ -43,6 +43,10 @@
   gap: 16px;
 }
 
+.panch-app-header > .panch-back-link {
+  display: none;
+}
+
 .panch-back-link {
   gap: 7px;
   color: #63717d;
@@ -151,8 +155,12 @@
 }
 
 .panch-icon-button {
+  display: grid;
   width: 40px;
   height: 40px;
+  place-items: center;
+  padding: 0;
+  line-height: 1;
 }
 
 .panch-location-bar {
@@ -520,45 +528,73 @@
 }
 
 .panch-date-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.panch-date-label {
+  color: #758077;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.panch-day-selector {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 6px;
 }
 
-.panch-date-controls > button {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
+.panch-day-option {
+  display: flex;
+  min-width: 0;
+  min-height: 64px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
   border: 1px solid #e1e5dc;
   border-radius: 9px;
   background: white;
   color: #354c60;
+  font: inherit;
   cursor: pointer;
 }
 
-.panch-date-controls > button:disabled {
-  color: #b7bdb5;
-  cursor: not-allowed;
+.panch-day-option > span {
+  overflow: hidden;
+  max-width: 100%;
+  color: #758077;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.panch-date-controls > input {
-  height: 36px;
-  max-width: 148px;
-  border: 1px solid #e1e5dc;
-  border-radius: 9px;
-  padding: 0 8px;
-  background: #fff;
-  color: #415667;
-  font: inherit;
-  font-size: 10px;
+.panch-day-option > strong {
+  color: #263a4d;
+  font-size: 15px;
 }
 
-.panch-date-controls > .panch-today-button {
-  display: block;
-  width: auto;
-  padding: 0 10px;
-  color: #927333;
-  font-size: 10px;
-  font-weight: 700;
+.panch-day-option > small {
+  color: #929a92;
+  font-size: 8px;
+}
+
+.panch-day-option:hover {
+  border-color: #c0c9bd;
+  background: #fbfcf8;
+}
+
+.panch-day-option.is-selected {
+  border-color: #375f78;
+  background: #edf4f5;
+  box-shadow: 0 0 0 1px #375f78;
+}
+
+.panch-day-option.is-selected > span,
+.panch-day-option.is-selected > strong,
+.panch-day-option.is-selected > small {
+  color: #244c67;
 }
 
 .panch-summary-card {
@@ -568,6 +604,11 @@
   gap: 18px;
   margin-bottom: 15px;
   padding: 21px 24px;
+}
+
+.panch-dashboard-priority {
+  display: flex;
+  flex-direction: column;
 }
 
 .panch-summary-main h2 {
@@ -1572,22 +1613,50 @@
   .panch-dashboard-heading {
     align-items: flex-start;
     flex-direction: column;
-    gap: 13px;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .panch-dashboard-heading h1 {
+    margin: 5px 0 2px;
+    font-size: 18px;
+  }
+
+  .panch-dashboard-heading > div > p {
+    font-size: 9px;
   }
 
   .panch-date-controls {
     align-self: stretch;
+    gap: 6px;
   }
 
-  .panch-date-controls > input {
-    max-width: unset;
-    flex: 1;
+  .panch-date-label {
+    font-size: 9px;
+  }
+
+  .panch-day-selector {
+    gap: 4px;
+  }
+
+  .panch-day-option {
+    min-height: 58px;
+    gap: 2px;
+  }
+
+  .panch-day-option > strong {
+    font-size: 13px;
   }
 
   .panch-summary-card {
     grid-template-columns: 1fr 1fr;
     gap: 16px 12px;
     padding: 17px;
+    order: 2;
+  }
+
+  .panch-dashboard-priority > .panch-graph-card {
+    order: 1;
   }
 
   .panch-summary-main {

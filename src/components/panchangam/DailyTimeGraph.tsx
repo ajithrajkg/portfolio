@@ -129,6 +129,14 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
         </div>
       </div>
       {graph?.rows.length ? (
+        <div className="panch-chart-legend" aria-label="സമയങ്ങളുടെ അടയാളങ്ങൾ">
+          <span><i className="is-favorable" /> ശുഭം</span>
+          <span><i className="is-abhijit" /> അഭിജിത് മുഹൂർത്തം</span>
+          <span><i className="is-inauspicious" /> ശ്രദ്ധിക്കേണ്ടത്</span>
+          <span><i className="is-daylight" /> സൂര്യോദയം – അസ്തമയം</span>
+        </div>
+      ) : null}
+      {graph?.rows.length ? (
         <>
           <div className="panch-timeline" aria-label={fullDay ? "24 മണിക്കൂർ സമയരേഖ" : "സൂര്യോദയം മുതൽ അസ്തമയം വരെയുള്ള സമയരേഖ"}>
             <div className="panch-timeline-rows">
@@ -192,12 +200,6 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
               </span>
               <span />
             </div>
-          </div>
-          <div className="panch-chart-legend" aria-label="സമയങ്ങളുടെ അടയാളങ്ങൾ">
-            <span><i className="is-favorable" /> ശുഭം</span>
-            <span><i className="is-abhijit" /> അഭിജിത് മുഹൂർത്തം</span>
-            <span><i className="is-inauspicious" /> ശ്രദ്ധിക്കേണ്ടത്</span>
-            <span><i className="is-daylight" /> സൂര്യോദയം – അസ്തമയം</span>
           </div>
           {selected && (
             <div className="panch-selected-period" role="status">

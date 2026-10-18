@@ -12,6 +12,7 @@ export default function Navbar() {
   const [pathnameReady, setPathnameReady] = useState(false);
   const pathname = usePathname();
   const productsRef = useRef(null);
+  const mobileProductsRef = useRef(null);
   const currentPath = pathnameReady && pathname
     ? pathname.replace(/\/$/, "") || "/"
     : "";
@@ -24,7 +25,9 @@ export default function Navbar() {
   useEffect(() => {
     setPathnameReady(true);
     const handleClickOutside = (event) => {
-      if (productsRef.current && !productsRef.current.contains(event.target)) {
+      const clickedProductsMenu = productsRef.current?.contains(event.target)
+        || mobileProductsRef.current?.contains(event.target);
+      if (!clickedProductsMenu) {
         setProductsOpen(false);
       }
     };
@@ -174,7 +177,7 @@ export default function Navbar() {
           >
             About Me
           </Link>
-          <div>
+          <div ref={mobileProductsRef}>
             <button
               type="button"
               onClick={() => setProductsOpen(!productsOpen)}
