@@ -22,8 +22,11 @@ export const metadata = {
   },
   manifest: "/imagetrace/manifest.webmanifest",
   icons: {
-    apple: "/imagetrace/icon.svg",
-    icon: [{ url: "/imagetrace/icon.svg", type: "image/svg+xml" }],
+    apple: "/imagetrace/icon-192.png",
+    icon: [
+      { url: "/imagetrace/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/imagetrace/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
   },
   alternates: {
     canonical: "/imagetrace/",

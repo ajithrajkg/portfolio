@@ -14,6 +14,8 @@ self.addEventListener("install", (event) => {
     await Promise.all([
       "/imagetrace/manifest.webmanifest",
       "/imagetrace/icon.svg",
+      "/imagetrace/icon-192.png",
+      "/imagetrace/icon-512.png",
       "/logo.png",
     ].map(async (asset) => {
       const assetResponse = await fetch(asset);
