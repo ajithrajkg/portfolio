@@ -19,7 +19,7 @@ export default function Navbar() {
   const isHomeActive = currentPath === "/";
   const isGalleryActive = currentPath === "/gallery";
   const isAboutActive = currentPath === "/about";
-  const isProductsActive = ["/products", "/code-editor", "/svg-color", "/notepad", "/panchangam", "/tracedraw"].includes(currentPath);
+  const isProductsActive = ["/products", "/code-editor", "/svg-color", "/notepad", "/panchangam", "/tracedraw", "/imagetrace"].includes(currentPath);
   const isContactActive = currentPath === "/contact";
 
   useEffect(() => {
@@ -117,7 +117,15 @@ export default function Navbar() {
                     className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-amber-200 hover:bg-amber-50"
                   >
                     <Pencil className="mt-0.5 shrink-0 text-amber-700" size={20} />
-                    <span><strong className="block text-sm text-slate-900">TraceDraw</strong><small className="mt-1 block text-xs font-normal text-slate-500">Trace your favorite images over a live camera view.</small></span>
+                    <span><strong className="block text-sm text-slate-900">TraceDraw</strong><small className="mt-1 block text-xs font-normal text-slate-500">Trace images with a live camera overlay.</small></span>
+                  </Link>
+                  <Link
+                    href="/imagetrace"
+                    onClick={() => setProductsOpen(false)}
+                    className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-amber-200 hover:bg-amber-50"
+                  >
+                    <Pencil className="mt-0.5 shrink-0 text-amber-700" size={20} />
+                    <span><strong className="block text-sm text-slate-900">ImageTrace</strong><small className="mt-1 block text-xs font-normal text-slate-500">Position, adjust, and lock an image for tracing.</small></span>
                   </Link>
                 </div>
               )}
@@ -237,6 +245,16 @@ export default function Navbar() {
                   className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
                 >
                   TraceDraw
+                </Link>
+                <Link
+                  href="/imagetrace"
+                  onClick={() => {
+                    setOpen(false);
+                    setProductsOpen(false);
+                  }}
+                  className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
+                >
+                  ImageTrace
                 </Link>
               </>
             )}

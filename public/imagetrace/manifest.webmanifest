@@ -1,0 +1,21 @@
+{
+  "id": "/imagetrace/",
+  "name": "ImageTrace - Image tracing studio",
+  "short_name": "ImageTrace",
+  "description": "A private, installable image tracing studio.",
+  "start_url": "/imagetrace/",
+  "scope": "/imagetrace/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#151713",
+  "theme_color": "#151713",
+  "categories": ["art", "photo", "utilities"],
+  "icons": [
+    {
+      "src": "/imagetrace/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
