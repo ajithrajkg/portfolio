@@ -149,7 +149,7 @@ body:has(.imagetrace-app) > main {
 
 .trace-panel-title h1 {
   margin: 5px 0 19px;
-  color: var(--trace-text);
+  color: var(--trace-text) !important;
   font: 400 25px/1.15 Georgia, "Times New Roman", serif;
   letter-spacing: -.035em;
 }
@@ -322,7 +322,7 @@ body:has(.imagetrace-app) > main {
 
 .trace-control-help {
   margin: 9px 0 0;
-  color: #888b81;
+  color: #888b81 !important;
   font-size: 9px;
 }
 
@@ -550,13 +550,13 @@ body:has(.imagetrace-app) > main {
 
 .trace-empty-state h2 {
   margin: 15px 0 7px;
-  color: var(--trace-text);
+  color: var(--trace-text) !important;
   font: 400 21px Georgia, "Times New Roman", serif;
 }
 
 .trace-empty-state p {
   margin: 0 0 16px;
-  color: #a0a397;
+  color: #a0a397 !important;
   font-size: 11px;
 }
 
@@ -798,31 +798,34 @@ body:has(.imagetrace-app) > main {
 
   .trace-control-panel {
     display: grid;
-    max-height: 43vh;
+    max-height: min(52dvh, 460px);
     flex: 0 0 auto;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-content: start;
-    gap: 0 14px;
+    gap: 0 16px;
     border-top: 1px solid var(--trace-border);
     border-right: 0;
-    padding: 12px 14px max(14px, env(safe-area-inset-bottom, 0px));
+    padding: 14px 16px max(16px, env(safe-area-inset-bottom, 0px));
   }
 
   .trace-panel-title {
-    grid-column: 1 / -1;
+    align-self: end;
   }
 
   .trace-panel-title h1 {
-    margin: 2px 0 10px;
+    margin: 2px 0 0;
     font-size: 21px;
   }
 
   .trace-kicker {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .trace-control-panel > .trace-browse-button {
-    min-height: 40px;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    min-height: 44px;
   }
 
   .trace-selected-image {
@@ -830,8 +833,8 @@ body:has(.imagetrace-app) > main {
   }
 
   .trace-control-section {
-    margin-top: 13px;
-    padding-top: 11px;
+    margin-top: 16px;
+    padding-top: 13px;
   }
 
   .trace-control-help,
@@ -841,41 +844,57 @@ body:has(.imagetrace-app) > main {
 
   .trace-adjustments {
     grid-column: 2;
-    grid-row: 2 / span 3;
   }
 
   .trace-adjustment {
-    gap: 9px;
-    margin-top: 13px;
-  }
-
-  .trace-effect-buttons {
+    gap: 7px;
     margin-top: 12px;
   }
 
+  .trace-adjustment > span {
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .trace-effect-buttons {
+    gap: 8px;
+    margin-top: 13px;
+  }
+
+  .trace-effect-buttons button {
+    min-height: 38px;
+    font-size: 10px;
+  }
+
   .trace-fit-actions {
-    gap: 5px;
-    margin-top: 8px;
+    gap: 6px;
+    margin-top: 10px;
   }
 
   .trace-fit-actions button {
-    min-height: 31px;
-    font-size: 8px;
+    min-height: 36px;
+    font-size: 10px;
   }
 
   .trace-zoom-label {
     margin-top: 10px;
+    font-size: 11px;
   }
 
   .trace-zoom-control {
-    gap: 5px;
+    gap: 7px;
     margin-top: 5px;
   }
 
   .trace-zoom-control button {
-    width: 27px;
-    height: 27px;
-    flex-basis: 27px;
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+
+  .trace-zoom-control input,
+  .trace-adjustment input {
+    height: 24px;
   }
 
   .trace-canvas-column {
@@ -919,13 +938,17 @@ body:has(.imagetrace-app) > main {
   }
 
   .trace-control-panel {
-    max-height: 45vh;
+    max-height: min(52dvh, 460px);
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trace-control-panel > .trace-browse-button {
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .trace-adjustments {
     grid-column: 1;
-    grid-row: auto;
   }
 
   .trace-bottom-bar > span {
@@ -939,7 +962,7 @@ body:has(.imagetrace-app) > main {
 
 @media (max-height: 620px) and (max-width: 720px) {
   .trace-control-panel {
-    max-height: 36vh;
+    max-height: 44dvh;
   }
 }
 
