@@ -675,7 +675,7 @@ export default function ImageTraceApp() {
             <footer className="trace-bottom-bar">
               <span>{image ? `${Math.round(transform.scale * 100)}% zoom` : "Ready when you are"}</span>
               <div>
-                <button type="button" disabled={!image} onClick={() => void toggleTracingMode()}><Maximize size={16} /> Enter tracing mode</button>
+                <button className="trace-enter-button" type="button" disabled={!image} onClick={() => void toggleTracingMode()}><Maximize size={16} /> Enter tracing mode</button>
                 <button type="button" className={`trace-lock-button${locked ? " is-locked" : ""}`} disabled={!image} onClick={() => setLocked((value) => !value)}>
                   {locked ? <LockKeyhole size={17} /> : <UnlockKeyhole size={17} />}
                   {locked ? "Unlock image" : "Lock image"}

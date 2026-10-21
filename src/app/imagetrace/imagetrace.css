@@ -627,6 +627,25 @@ body:has(.imagetrace-app) > main {
   color: #1b1b16;
 }
 
+.trace-bottom-bar button.trace-enter-button {
+  border-color: #8fbf8f;
+  background: #8fbf8f;
+  color: #172719;
+  font-weight: 650;
+}
+
+.trace-bottom-bar button.trace-enter-button:disabled {
+  border-color: #8fbf8f;
+  background: #8fbf8f;
+  color: #172719;
+  opacity: .75;
+}
+
+.trace-bottom-bar button.trace-enter-button:hover:not(:disabled) {
+  border-color: #a3d2a3;
+  background: #a3d2a3;
+}
+
 .trace-bottom-bar button.trace-lock-button.is-locked {
   border-color: #9eb59b;
   background: #26352a;

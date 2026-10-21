@@ -8,17 +8,15 @@ type GraphRow = {
   id: string;
   title: string;
   explanation: string;
-  kind: PeriodKind | "daylight";
+  kind: PeriodKind;
   start: Date;
   end: Date;
-  isDaylight: boolean;
 };
 
-const COLORS: Record<GraphRow["kind"], string> = {
+const COLORS: Record<PeriodKind, string> = {
   favorable: "#52bcff",
   neutral: "#ad7412",
   inauspicious: "#d0362e",
-  daylight: "#246f9e",
 };
 
 function createRows(record: PanchangamRecord, fullDay: boolean): {
@@ -33,15 +31,7 @@ function createRows(record: PanchangamRecord, fullDay: boolean): {
   const end = fullDay
     ? zonedDateTimeToUtc(addCalendarDays(record.date, 1), 0, 0, record.place.timeZone)
     : new Date(record.sunset);
-  const rows: GraphRow[] = [{
-    id: "daylight",
-    title: "സൂര്യോദയം – സൂര്യാസ്തമയം",
-    explanation: "കണക്കാക്കിയ പ്രാദേശിക സൂര്യോദയത്തിനും അസ്തമയത്തിനും ഇടയിലുള്ള സമയം.",
-    kind: "daylight",
-    start: new Date(record.sunrise),
-    end: new Date(record.sunset),
-    isDaylight: true,
-  }];
+  const rows: GraphRow[] = [];
 
   for (const period of record.periods) {
     if (period.id === "daylight") continue;
@@ -55,16 +45,13 @@ function createRows(record: PanchangamRecord, fullDay: boolean): {
       kind: period.kind,
       start: new Date(Math.max(periodStart.getTime(), start.getTime())),
       end: new Date(Math.min(periodEnd.getTime(), end.getTime())),
-      isDaylight: false,
     });
   }
 
   return {
     start,
     end,
-    rows: rows.sort((left, right) => (
-      left.isDaylight ? -1 : right.isDaylight ? 1 : left.start.getTime() - right.start.getTime()
-    )),
+    rows: rows.sort((left, right) => left.start.getTime() - right.start.getTime()),
   };
 }
 
@@ -100,10 +87,6 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
   }, []);
 
   function choosePeriod(row: GraphRow) {
-    if (row.isDaylight) {
-      setSelected(row);
-      return;
-    }
     const period: TimePeriod | undefined = record.periods.find((item) => item.id === row.id);
     setSelected(period ? { ...row, explanation: period.explanation } : row);
   }
@@ -116,6 +99,10 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
           <h2 id="time-graph-title">നല്ലതും ശ്രദ്ധിക്കേണ്ടതുമായ സമയം</h2>
         </div>
         <div className="panch-graph-actions">
+          <div className="panch-sun-times" role="group" aria-label="സൂര്യോദയവും സൂര്യാസ്തമയവും">
+            <span><small>ഉദയം</small><time>{formatTime(record.sunrise, record.place.timeZone)}</time></span>
+            <span><small>അസ്തമയം</small><time>{formatTime(record.sunset, record.place.timeZone)}</time></span>
+          </div>
           {now && (
             <span className="panch-current-time" aria-live="off">
               <i aria-hidden="true" />
@@ -133,7 +120,6 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
           <span><i className="is-favorable" /> ശുഭം</span>
           <span><i className="is-abhijit" /> അഭിജിത് മുഹൂർത്തം</span>
           <span><i className="is-inauspicious" /> ശ്രദ്ധിക്കേണ്ടത്</span>
-          <span><i className="is-daylight" /> സൂര്യോദയം – അസ്തമയം</span>
         </div>
       ) : null}
       {graph?.rows.length ? (
@@ -153,7 +139,7 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
 
                 return (
                   <button
-                    className={`panch-timeline-row is-${row.kind}${row.isDaylight ? " is-daylight" : ""}`}
+                    className={`panch-timeline-row is-${row.kind}`}
                     key={row.id}
                     type="button"
                     title={`${row.title}: ${formatTime(row.start.toISOString(), record.place.timeZone)} – ${formatTime(row.end.toISOString(), record.place.timeZone)}. ${row.explanation}`}
@@ -176,7 +162,6 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
                           aria-hidden="true"
                         >
                           <i />
-                          {row.isDaylight && <span>ഇപ്പോൾ</span>}
                         </span>
                       )}
                     </span>

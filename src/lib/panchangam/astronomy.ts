@@ -14,6 +14,8 @@ import type {
   Place,
   PlanetPosition,
   TimePeriod,
+  VimshottariPeriod,
+  VimshottariSchedule,
 } from "./types";
 import { addCalendarDays, dateInTimeZone, zonedDateTimeToUtc } from "./date-time";
 
@@ -58,6 +60,18 @@ const YAMAGANDA_SEGMENT = [5, 4, 3, 2, 1, 7, 6];
 const GULIKA_SEGMENT = [7, 6, 5, 4, 3, 2, 1];
 const AYANAMSA_BASE_DEGREES = 23.85675;
 const AYANAMSA_RATE_DEGREES_PER_YEAR = 50.290966 / 3600;
+const VIMSHOTTARI_YEAR_MS = 365.2425 * 24 * 60 * 60 * 1000;
+const VIMSHOTTARI_LORDS = [
+  { name: "Ketu", malayalamName: "കേതു", years: 7 },
+  { name: "Venus", malayalamName: "ശുക്രൻ", years: 20 },
+  { name: "Sun", malayalamName: "സൂര്യൻ", years: 6 },
+  { name: "Moon", malayalamName: "ചന്ദ്രൻ", years: 10 },
+  { name: "Mars", malayalamName: "ചൊവ്വ", years: 7 },
+  { name: "Rahu", malayalamName: "രാഹു", years: 18 },
+  { name: "Jupiter", malayalamName: "വ്യാഴം", years: 16 },
+  { name: "Saturn", malayalamName: "ശനി", years: 19 },
+  { name: "Mercury", malayalamName: "ബുധൻ", years: 17 },
+] as const;
 
 function wrapDegrees(value: number): number {
   return ((value % 360) + 360) % 360;
@@ -319,6 +333,111 @@ function getBirthReference(profile?: BirthProfile): { nakshatra: string; moonSig
     nakshatra: NAKSHATRA_NAMES[Math.floor(birthMoon / (360 / 27))],
     moonSign: ZODIAC_SIGNS[Math.floor(birthMoon / 30)],
   };
+}
+
+function findCurrentSubperiod(
+  parentStart: number,
+  parentEnd: number,
+  parentLordIndex: number,
+  target: number,
+): VimshottariPeriod | null {
+  let start = parentStart;
+  const parentDuration = parentEnd - parentStart;
+
+  for (let index = 0; index < VIMSHOTTARI_LORDS.length; index += 1) {
+    const lordIndex = (parentLordIndex + index) % VIMSHOTTARI_LORDS.length;
+    const lord = VIMSHOTTARI_LORDS[lordIndex];
+    const end = index === VIMSHOTTARI_LORDS.length - 1
+      ? parentEnd
+      : start + parentDuration * lord.years / 120;
+    if (target >= start && target < end) {
+      return {
+        lord: lord.name,
+        malayalamLord: lord.malayalamName,
+        start: new Date(start).toISOString(),
+        end: new Date(end).toISOString(),
+      };
+    }
+    start = end;
+  }
+  return null;
+}
+
+export function calculateVimshottariSchedule(
+  profile: BirthProfile,
+  targetDate: string,
+): VimshottariSchedule {
+  const [hour, minute] = profile.timeOfBirth.split(":").map(Number);
+  const birthInstant = zonedDateTimeToUtc(
+    profile.dateOfBirth,
+    hour,
+    minute,
+    profile.placeOfBirth.timeZone,
+  ).getTime();
+  const targetInstant = zonedDateTimeToUtc(
+    targetDate,
+    12,
+    0,
+    profile.dailyPlace.timeZone,
+  ).getTime();
+  const moonLongitude = siderealLongitude(Body.Moon, new Date(birthInstant));
+  const nakshatraSize = 360 / 27;
+  const nakshatraIndex = Math.floor(moonLongitude / nakshatraSize);
+  const progress = (moonLongitude - nakshatraIndex * nakshatraSize) / nakshatraSize;
+  const firstLordIndex = nakshatraIndex % VIMSHOTTARI_LORDS.length;
+  const firstLord = VIMSHOTTARI_LORDS[firstLordIndex];
+  const firstMahadashaDuration = firstLord.years * VIMSHOTTARI_YEAR_MS;
+  let mahadashaStart = birthInstant - firstMahadashaDuration * progress;
+  let mahadasha: VimshottariPeriod | null = null;
+  let mahadashaLordIndex = firstLordIndex;
+
+  for (let index = 0; index < 1000; index += 1) {
+    mahadashaLordIndex = (firstLordIndex + index) % VIMSHOTTARI_LORDS.length;
+    const lord = VIMSHOTTARI_LORDS[mahadashaLordIndex];
+    const duration = index === 0
+      ? firstMahadashaDuration
+      : lord.years * VIMSHOTTARI_YEAR_MS;
+    const mahadashaEnd = mahadashaStart + duration;
+    if (targetInstant >= mahadashaStart && targetInstant < mahadashaEnd) {
+      mahadasha = {
+        lord: lord.name,
+        malayalamLord: lord.malayalamName,
+        start: new Date(mahadashaStart).toISOString(),
+        end: new Date(mahadashaEnd).toISOString(),
+      };
+      break;
+    }
+    mahadashaStart = mahadashaEnd;
+  }
+
+  if (!mahadasha) {
+    throw new RangeError("Could not find the active Vimshottari Mahadasha.");
+  }
+
+  const antardasha = findCurrentSubperiod(
+    new Date(mahadasha.start).getTime(),
+    new Date(mahadasha.end).getTime(),
+    mahadashaLordIndex,
+    targetInstant,
+  );
+  if (!antardasha) {
+    throw new RangeError("Could not find the active Vimshottari Antardasha.");
+  }
+
+  const pratyantardashaLordIndex = VIMSHOTTARI_LORDS.findIndex(
+    (lord) => lord.name === antardasha.lord,
+  );
+  const pratyantardasha = findCurrentSubperiod(
+    new Date(antardasha.start).getTime(),
+    new Date(antardasha.end).getTime(),
+    pratyantardashaLordIndex,
+    targetInstant,
+  );
+  if (!pratyantardasha) {
+    throw new RangeError("Could not find the active Vimshottari Pratyantardasha.");
+  }
+
+  return { mahadasha, antardasha, pratyantardasha };
 }
 
 export function calculateDailyPanchangam(

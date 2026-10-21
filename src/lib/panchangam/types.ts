@@ -39,6 +39,19 @@ export type PlanetPosition = {
   longitude: number;
 };
 
+export type VimshottariPeriod = {
+  lord: string;
+  malayalamLord: string;
+  start: string;
+  end: string;
+};
+
+export type VimshottariSchedule = {
+  mahadasha: VimshottariPeriod;
+  antardasha: VimshottariPeriod;
+  pratyantardasha: VimshottariPeriod;
+};
+
 export type PanchangamRecord = {
   date: string;
   place: Place;

@@ -18,6 +18,7 @@ import BirthDetailsForm from "./BirthDetailsForm";
 import DailyTimeGraph from "./DailyTimeGraph";
 import PanchangamDetailsPage from "./PanchangamDetailsPage";
 import PWAInstallButton from "./PWAInstallButton";
+import VimshottariSummary from "./VimshottariSummary";
 import { calculateDailyPanchangam, calculateThreeMonths } from "@/lib/panchangam/astronomy";
 import { addCalendarDays, dateInTimeZone, formatMalayalamDate, formatTime } from "@/lib/panchangam/date-time";
 import { isKeralaDistrictPlace } from "@/lib/panchangam/kerala-districts";
@@ -340,10 +341,15 @@ export default function PanchangamClient() {
         ) : (
           <>
             <section className="panch-dashboard-heading">
-              <div>
-                <span className="panch-eyebrow"><CalendarDays size={14} /> ദിന പഞ്ചാംഗം</span>
-                <h1>ഇന്നത്തെ പഞ്ചാംഗം</h1>
-                <p>{record ? formatMalayalamDate(selectedDate, record.place.timeZone) : "തീയതി തിരഞ്ഞെടുക്കുക"}</p>
+              <div className="panch-dashboard-title">
+                <div className="panch-dashboard-title-line">
+                  <span className="panch-eyebrow"><CalendarDays size={14} /> ദിന പഞ്ചാംഗം</span>
+                  <h1>ഇന്നത്തെ പഞ്ചാംഗം</h1>
+                  <p>{record ? formatMalayalamDate(selectedDate, record.place.timeZone) : "തീയതി തിരഞ്ഞെടുക്കുക"}</p>
+                </div>
+                {profile && selectedDate && (
+                  <VimshottariSummary profile={profile} date={selectedDate} compact />
+                )}
               </div>
               <div className="panch-date-controls">
                 <span className="panch-date-label">Select your day</span>
@@ -400,33 +406,6 @@ export default function PanchangamClient() {
                   </div>
                 )}
                 <div className="panch-dashboard-priority">
-                  <section className="panch-summary-card">
-                    <div className="panch-summary-main">
-                      <span className="panch-summary-date"><Moon size={17} /> {formatMalayalamDate(selectedDate, record.place.timeZone)}</span>
-                      <h2>{record.tithi.value}</h2>
-                      <p>ഇന്നത്തെ തിഥി</p>
-                    </div>
-                    <div className="panch-summary-divider" />
-                    <div className="panch-summary-item">
-                      <span><SparkleIcon /></span>
-                      <div><strong>{record.nakshatra.value}</strong><small>നക്ഷത്രം</small></div>
-                    </div>
-                    <div className="panch-summary-item">
-                      <span><Sun size={20} /></span>
-                      <div>
-                        <strong>{formatTime(record.sunrise, record.place.timeZone)}</strong>
-                        <small>സൂര്യോദയം</small>
-                      </div>
-                    </div>
-                    <div className="panch-summary-item">
-                      <span><Sun size={20} /></span>
-                      <div>
-                        <strong>{formatTime(record.sunset, record.place.timeZone)}</strong>
-                        <small>സൂര്യാസ്തമയം</small>
-                      </div>
-                    </div>
-                  </section>
-
                   <DailyTimeGraph record={record} />
                 </div>
 
@@ -484,8 +463,4 @@ export default function PanchangamClient() {
       </div>
     </main>
   );
-}
-
-function SparkleIcon() {
-  return <span className="panch-star-glyph" aria-hidden="true">✦</span>;
 }

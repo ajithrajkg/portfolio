@@ -26,7 +26,6 @@
 .panch-section-heading,
 .panch-progress-top,
 .panch-date-controls,
-.panch-summary-date,
 .panch-chart-legend,
 .panch-data-footer,
 .panch-data-footer > div,
@@ -597,85 +596,117 @@
   color: #244c67;
 }
 
-.panch-summary-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) 1px repeat(3, minmax(0, .8fr));
-  align-items: center;
-  gap: 18px;
-  margin-bottom: 15px;
-  padding: 21px 24px;
-}
-
-.panch-dashboard-priority {
-  display: flex;
-  flex-direction: column;
-}
-
-.panch-summary-main h2 {
-  margin: 13px 0 3px;
-  color: #263a4d !important;
-  font-size: 21px;
-  font-weight: 700;
-}
-
-.panch-summary-main > p {
-  margin: 0;
-  color: #8a938c !important;
-  font-size: 10px;
-}
-
-.panch-summary-date {
-  gap: 7px;
-  color: #9b7930;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.panch-summary-divider {
-  align-self: stretch;
-  width: 1px;
-  background: #e9ebe4;
-}
-
-.panch-summary-item {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 9px;
-}
-
-.panch-summary-item > span:first-child {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  flex: none;
-  place-items: center;
-  border-radius: 10px;
-  background: #f8f6ed;
-  color: #9b7930;
-}
-
-.panch-star-glyph {
-  font-size: 18px;
-}
-
-.panch-summary-item strong,
-.panch-summary-item small {
-  display: block;
+.panch-dasha-card {
   overflow: hidden;
-  text-overflow: ellipsis;
+  border: 1px solid #dfe5dc;
+  border-radius: 13px;
+  padding: 15px;
+  background: #fff;
+  box-shadow: 0 4px 14px #233b4b0a;
 }
 
-.panch-summary-item strong {
-  color: #354a5c;
+.panch-dasha-heading {
+  margin: 0 0 11px;
+  color: #293f51;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.panch-dasha-periods {
+  display: grid;
+  gap: 0;
+}
+
+.panch-dasha-period {
+  display: grid;
+  grid-template-columns: minmax(85px, .75fr) minmax(72px, .55fr) minmax(0, 1.5fr);
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #edf0e9;
+  padding: 10px 0;
+  color: #596b77;
+  font-size: 13px;
+}
+
+.panch-dasha-period strong {
+  color: #1e3d55;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.panch-dasha-period-info {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+}
+
+.panch-dasha-dates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px 8px;
+  color: #4f6170;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.panch-dasha-duration {
+  color: #8a7138;
   font-size: 11px;
+  font-weight: 600;
+}
+
+.panch-dasha-label {
+  color: #526777;
+  font-weight: 600;
+}
+
+.panch-dasha-card.is-compact {
+  width: 100%;
+  margin-top: 9px;
+  border-radius: 9px;
+  padding: 8px 10px;
+  box-shadow: none;
+}
+
+.panch-dasha-card.is-compact .panch-dasha-heading {
+  margin-bottom: 2px;
+  color: #526777;
+  font-size: 11px;
+}
+
+.panch-dasha-card.is-compact .panch-dasha-period {
+  grid-template-columns: 68px 52px minmax(0, 1fr);
+  column-gap: 9px;
+  row-gap: 5px;
+  padding: 6px 0;
+  font-size: 10px;
+}
+
+.panch-dasha-card.is-compact .panch-dasha-period strong {
+  font-size: 10px;
+}
+
+.panch-dasha-card.is-compact .panch-dasha-dates {
+  flex-wrap: nowrap;
+  gap: 3px;
+  font-size: 9px;
   white-space: nowrap;
 }
 
-.panch-summary-item small {
-  margin-top: 3px;
-  color: #929a92;
+.panch-dasha-card.is-compact .panch-dasha-period-info {
+  gap: 1px;
+}
+
+.panch-dasha-card.is-compact .panch-dasha-duration {
   font-size: 9px;
+}
+
+.panch-dasha-card.is-compact .panch-dasha-label {
+  font-size: 10px;
 }
 
 .panch-card {
@@ -690,6 +721,35 @@
   display: flex;
   align-items: center;
   gap: 15px;
+}
+
+.panch-sun-times,
+.panch-sun-times > span {
+  display: flex;
+  align-items: center;
+}
+
+.panch-sun-times {
+  gap: 12px;
+  color: #9b7930;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.panch-sun-times > span {
+  gap: 4px;
+}
+
+.panch-sun-times small {
+  color: #87908a;
+  font-size: 9px;
+}
+
+.panch-sun-times time {
+  color: #725719;
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .panch-current-time {
@@ -822,14 +882,6 @@
   right: 0;
 }
 
-.panch-timeline-row.is-daylight {
-  margin-bottom: 2px;
-}
-
-.panch-timeline-row.is-daylight .panch-timeline-line {
-  height: 10px;
-}
-
 .panch-timeline-label {
   display: flex;
   min-width: 0;
@@ -854,11 +906,6 @@
 
 .panch-timeline-label > span {
   color: #25364b;
-}
-
-.panch-timeline-row.is-daylight .panch-timeline-label > span {
-  color: #1f4b6e;
-  font-weight: 600;
 }
 
 .panch-timeline-row.is-inauspicious {
@@ -986,10 +1033,6 @@
 
 .panch-chart-legend .is-inauspicious {
   background: #d0362e;
-}
-
-.panch-chart-legend .is-daylight {
-  background: #246f9e;
 }
 
 .panch-selected-period {
@@ -1561,7 +1604,24 @@
 
 @media (max-width: 760px) {
   .panch-graph-actions {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 8px;
+  }
+
+  .panch-sun-times {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+  }
+
+  .panch-current-time {
+    justify-self: start;
+  }
+
+  .panch-graph-actions > .panch-toggle {
+    grid-column: 2;
+    justify-self: end;
   }
 
   .panch-current-time {
@@ -1572,6 +1632,20 @@
 
   .panch-current-time time {
     font-size: 11px;
+  }
+
+  .panch-sun-times {
+    gap: 7px;
+    font-size: 9px;
+  }
+
+  .panch-sun-times > span {
+    gap: 3px;
+  }
+
+  .panch-sun-times small,
+  .panch-sun-times time {
+    font-size: 8px;
   }
 
   .panch-app {
@@ -1626,9 +1700,85 @@
     font-size: 9px;
   }
 
+  .panch-dashboard-heading > div:first-child {
+    width: 100%;
+  }
+
+  .panch-dashboard-title-line {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  .panch-dashboard-title-line > .panch-eyebrow {
+    display: none;
+  }
+
   .panch-date-controls {
     align-self: stretch;
     gap: 6px;
+  }
+
+  .panch-dashboard-title-line h1 {
+    flex: none;
+    margin: 0;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+
+  .panch-dashboard-title-line > p {
+    min-width: 0;
+    overflow: hidden;
+    margin: 0;
+    font-size: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .panch-dasha-card {
+    margin-top: 8px;
+    padding: 8px 10px;
+  }
+
+  .panch-dasha-period {
+    grid-template-columns: minmax(78px, .75fr) minmax(60px, .55fr) minmax(0, 1.5fr);
+    column-gap: 9px;
+    row-gap: 6px;
+    padding: 9px 0;
+    font-size: 12px;
+  }
+
+  .panch-dasha-heading {
+    font-size: 14px;
+  }
+
+  .panch-dasha-period strong {
+    font-size: 13px;
+  }
+
+  .panch-dasha-dates {
+    gap: 3px 5px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 380px) {
+  .panch-dasha-period {
+    grid-template-columns: 1fr auto;
+    gap: 6px 10px;
+  }
+
+  .panch-dasha-dates {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .panch-dasha-period-info {
+    grid-column: 1 / -1;
+    justify-items: start;
   }
 
   .panch-date-label {
@@ -1646,34 +1796,6 @@
 
   .panch-day-option > strong {
     font-size: 13px;
-  }
-
-  .panch-summary-card {
-    grid-template-columns: 1fr 1fr;
-    gap: 16px 12px;
-    padding: 17px;
-    order: 2;
-  }
-
-  .panch-dashboard-priority > .panch-graph-card {
-    order: 1;
-  }
-
-  .panch-summary-main {
-    grid-column: 1 / -1;
-  }
-
-  .panch-summary-divider {
-    display: none;
-  }
-
-  .panch-summary-main h2 {
-    margin-top: 8px;
-  }
-
-  .panch-summary-item {
-    border-top: 1px solid #edf0e9;
-    padding-top: 12px;
   }
 
   .panch-card {
