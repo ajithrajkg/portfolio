@@ -447,6 +447,24 @@
   cursor: pointer;
 }
 
+.panch-place-dropdown svg {
+  transition: transform .16s ease;
+}
+
+.panch-place-dropdown[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.panch-place-search > .panch-place-clear {
+  color: #77869a;
+}
+
+.panch-place-search > .panch-place-clear:hover {
+  border-color: #c8d8ec;
+  background: #f3f7fc;
+  color: #354c69;
+}
+
 .panch-place-search > button:disabled {
   opacity: .55;
   cursor: wait;

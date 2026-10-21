@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { KERALA_DISTRICTS } from "@/lib/panchangam/kerala-districts";
 import type { Place } from "@/lib/panchangam/types";
 
@@ -80,13 +80,30 @@ export default function PlaceSelector({ id, label, value, onChange, error }: Pla
             aria-controls={`${id}-district-results`}
             placeholder="കേരളത്തിലെ ജില്ല തിരയുക"
           />
+          {query && (
+            <button
+              className="panch-place-clear"
+              type="button"
+              onClick={() => {
+                setQuery("");
+                onChange(null);
+                setShowResults(true);
+              }}
+              aria-label="തിരഞ്ഞെടുത്ത സ്ഥലം മായ്ക്കുക"
+              title="മായ്ക്കുക"
+            >
+              <X size={15} />
+            </button>
+          )}
           <button
+            className="panch-place-dropdown"
             type="button"
             onClick={() => setShowResults((current) => !current)}
-            aria-label="ജില്ലകൾ കാണിക്കുക"
+            aria-label={showResults ? "ജില്ലകളുടെ പട്ടിക അടയ്ക്കുക" : "ജില്ലകളുടെ പട്ടിക തുറക്കുക"}
             aria-expanded={showResults}
+            aria-controls={`${id}-district-results`}
           >
-            <Search size={15} />
+            <ChevronDown size={16} />
           </button>
         </div>
         {showResults && (
