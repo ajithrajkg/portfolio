@@ -680,7 +680,7 @@
 
 .panch-dasha-card.is-compact .panch-dasha-period {
   grid-template-columns: 68px 52px minmax(0, 1fr);
-  column-gap: 9px;
+  column-gap: 25px;
   row-gap: 5px;
   padding: 6px 0;
   font-size: 10px;
@@ -819,16 +819,15 @@
 }
 
 .panch-timeline-row {
-  display: grid;
+  display: flex;
   min-width: 0;
-  min-height: 42px;
-  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-  align-items: center;
-  gap: 16px;
-  border: 1px solid #e0e7ee;
-  border-radius: 9px;
-  padding: 5px 11px;
-  background: #f8fafc;
+  flex-direction: column;
+  gap: 13px;
+  border: 1px solid #dfe3e9;
+  border-radius: 14px;
+  padding: 13px 17px 15px;
+  background: #fff;
+  box-shadow: 0 1px 4px #1b2d4008;
   text-align: left;
   cursor: pointer;
   transition: border-color .16s, background-color .16s, box-shadow .16s;
@@ -848,15 +847,39 @@
 .panch-timeline-track {
   position: relative;
   display: block;
-  height: 18px;
+  height: 12px;
   min-width: 0;
+}
+
+.panch-timeline-track::before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 99px;
+  background: #dfe2e6;
+  content: "";
+  transform: translateY(-50%);
+}
+
+.panch-timeline-tick {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #dfe2e6;
+  transform: translate(-50%, -50%);
 }
 
 .panch-timeline-line {
   position: absolute;
-  top: 5px;
+  z-index: 2;
+  top: 50%;
   display: block;
-  height: 10px;
+  height: 4px;
   min-width: 2px;
   border-radius: 99px;
   transform: translateY(-50%);
@@ -866,8 +889,8 @@
 .panch-timeline-line::after {
   position: absolute;
   top: 50%;
-  width: 4px;
-  height: 4px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: inherit;
   content: "";
@@ -887,117 +910,91 @@
   min-width: 0;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 3px 9px;
-  color: #23344a;
+  justify-content: space-between;
+  gap: 10px;
+  color: #ff1717;
   font-family: "Noto Sans Malayalam", "Nirmala UI", "Kartika", system-ui, sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.65;
+  font-size: clamp(12px, 2.5vw, 27px);
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .panch-timeline-label strong {
-  color: #1e466a;
+  color: #ff1717;
   font-family: "Poppins", "Nirmala UI", system-ui, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: clamp(12px, 2.4vw, 25px);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .panch-timeline-label > span {
-  color: #25364b;
+  color: inherit;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .panch-timeline-row.is-inauspicious {
-  border-color: #edcaca;
-  background: #fff8f7;
+  border-color: #e0e3e8;
+  background: #fff;
 }
 
 .panch-timeline-row.is-inauspicious:hover {
-  border-color: #e4aaa6;
-  background: #fff0ee;
+  border-color: #f2b9b9;
+  background: #fffafa;
 }
 
 .panch-timeline-row.is-inauspicious .panch-timeline-label strong,
 .panch-timeline-row.is-inauspicious .panch-timeline-label > span {
-  color: #d0362e;
+  color: #ff1717;
+}
+
+.panch-timeline-row.is-favorable .panch-timeline-label strong,
+.panch-timeline-row.is-favorable .panch-timeline-label > span {
+  color: #092f78;
+}
+
+.panch-timeline-row.is-neutral .panch-timeline-label strong,
+.panch-timeline-row.is-neutral .panch-timeline-label > span {
+  color: #a86c09;
 }
 
 .panch-timeline-row.is-abhijit {
-  border-color: #b9efd8;
-  background: #f2fff8;
+  border-color: #dfe3e8;
+  background: #fff;
 }
 
 .panch-timeline-row.is-abhijit:hover {
-  border-color: #80dfb5;
-  background: #e9fff3;
+  border-color: #a9dec4;
+  background: #f9fffb;
 }
 
 .panch-timeline-row.is-abhijit .panch-timeline-label strong,
 .panch-timeline-row.is-abhijit .panch-timeline-label > span {
-  color: #08784b;
+  color: #075638;
 }
 
-.panch-timeline-now {
-  position: absolute;
-  z-index: 1;
-  top: -2px;
-  bottom: -2px;
-  width: 1px;
-  border-left: 1px dashed #203a52b5;
-  pointer-events: none;
-  transition: left 15s linear;
+.panch-period-ruler {
+  display: block;
+  width: 100%;
+  margin: 0;
 }
 
-.panch-timeline-now > i {
-  position: absolute;
-  top: 50%;
-  left: -4px;
-  width: 7px;
-  height: 7px;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  background: #203a52;
-  box-shadow: 0 0 0 0 #203a524a;
-  animation: panch-now-pulse 1.8s ease-out infinite;
-  transform: translateY(-50%);
-}
-
-.panch-timeline-now > span {
-  position: absolute;
-  top: -15px;
-  left: 3px;
-  color: #193e5d;
-  font-size: 10px;
-  font-weight: 700;
+.panch-period-ruler-labels {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 0;
+  margin-bottom: 2px;
+  color: #172439;
+  font-family: "Poppins", "Nirmala UI", sans-serif;
+  font-size: clamp(8px, 1.2vw, 12px);
+  font-weight: 500;
+  text-align: center;
   white-space: nowrap;
 }
 
-@keyframes panch-now-pulse {
-  0% {
-    box-shadow: 0 0 0 0 #21835b55;
-  }
-  70% {
-    box-shadow: 0 0 0 6px #21835b00;
-  }
-  100% {
-    box-shadow: 0 0 0 0 #21835b00;
-  }
-}
-
-.panch-timeline-axis {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: 18px;
-  padding: 7px 4px 0;
-}
-
-.panch-timeline-axis-times {
-  display: flex;
-  justify-content: space-between;
-  color: #58697a;
-  font-family: "Poppins", "Nirmala UI", sans-serif;
-  font-size: 10px;
+.panch-timeline-row.is-abhijit .panch-timeline-line {
+  background-color: #14a86c !important;
 }
 
 .panch-chart-legend {
@@ -1595,8 +1592,7 @@
   .panch-details-overlay,
   .panch-skeleton,
   .panch-progress-track i,
-  .panch-current-time > i,
-  .panch-timeline-now > i {
+  .panch-current-time > i {
     animation: none;
     transition: none;
   }
@@ -1806,29 +1802,18 @@
     font-size: 14px;
   }
 
-  .panch-timeline-row,
-  .panch-timeline-axis {
-    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-    gap: 10px;
-  }
-
   .panch-timeline-row {
-    min-height: 40px;
-    padding-right: 8px;
-    padding-left: 8px;
+    gap: 11px;
+    padding: 11px 12px 13px;
   }
 
   .panch-timeline-label {
-    gap: 2px 6px;
-    font-size: 12px;
+    gap: 7px;
+    font-size: clamp(14px, 4vw, 20px);
   }
 
   .panch-timeline-label strong {
-    font-size: 11px;
-  }
-
-  .panch-timeline-axis-times {
-    font-size: 9px;
+    font-size: clamp(12px, 3.7vw, 18px);
   }
 
   .panch-highlight-grid {
@@ -1945,5 +1930,312 @@
 
   .panch-unavailable-row small {
     margin-left: 0;
+  }
+}
+
+.panch-app,
+.panch-details-overlay {
+  background: #f5f7fb;
+  color: #34445c;
+}
+
+.panch-app {
+  background:
+    radial-gradient(ellipse at 12% 0, #eaf1fb 0, transparent 34%),
+    #f5f7fb;
+}
+
+.panch-brand-mark,
+.panch-icon-tile {
+  border-color: #d9e5f5;
+  background: #f0f5fd;
+  color: #2f75cf;
+}
+
+.panch-app-brand strong,
+.panch-hero-copy h1,
+.panch-dashboard-heading h1,
+.panch-form-heading h2,
+.panch-section-heading h2 {
+  color: #30435f !important;
+}
+
+.panch-eyebrow,
+.panch-hero-copy h1 em,
+.panch-location-note svg,
+.panch-progress-top svg {
+  color: #3479d0;
+}
+
+.panch-location-bar,
+.panch-profile-card,
+.panch-card,
+.panch-highlight-card,
+.panch-details-card,
+.panch-dasha-card {
+  border-color: #e5eaf2;
+  background: #fff;
+  box-shadow: 0 3px 12px #3147660a;
+}
+
+.panch-location-bar {
+  background: #fff;
+  color: #65758d;
+}
+
+.panch-location-bar > span:first-of-type,
+.panch-date-label,
+.panch-day-option,
+.panch-summary-item strong {
+  color: #344b68;
+}
+
+.panch-install-button,
+.panch-icon-button,
+.panch-place-search > button {
+  border-color: #e0e7f0;
+  color: #3b5c84;
+}
+
+.panch-install-button:hover,
+.panch-icon-button:hover,
+.panch-date-controls button:hover:not(:disabled) {
+  border-color: #c8d8ec;
+  background: #f3f7fc;
+}
+
+.panch-primary-button,
+.panch-details-button {
+  border-color: #2f75cf;
+  background: #2f75cf;
+}
+
+.panch-primary-button:hover:not(:disabled),
+.panch-details-button:hover {
+  background: #2465b5;
+}
+
+.panch-field > input,
+.panch-place-wrap > input,
+.panch-place-search > input {
+  border-color: #dfe6ef;
+  background: #f9fbfe;
+  color: #34445c;
+}
+
+.panch-field > input:focus,
+.panch-place-wrap > input:focus,
+.panch-place-search > input:focus {
+  border-color: #6a9ddd;
+  box-shadow: 0 0 0 3px #3479d01a;
+}
+
+.panch-day-option {
+  border-color: #e2e8f0;
+}
+
+.panch-day-option.is-selected {
+  border-color: #3479d0;
+  background: #edf4fd;
+  box-shadow: 0 0 0 1px #3479d0;
+}
+
+.panch-day-option.is-selected > span,
+.panch-day-option.is-selected > strong,
+.panch-day-option.is-selected > small {
+  color: #2868b5;
+}
+
+.panch-dasha-heading {
+  color: #30435f;
+}
+
+.panch-dasha-period {
+  border-color: #e9edf3;
+  color: #65758b;
+}
+
+.panch-dasha-period strong {
+  color: #2f75cf;
+}
+
+.panch-dasha-label,
+.panch-dasha-dates {
+  color: #64748b;
+}
+
+.panch-dasha-duration {
+  color: #5878a2;
+}
+
+.panch-details-header {
+  border-color: #e5eaf2;
+  background: #fffffff2;
+}
+
+.panch-details-title h1,
+.panch-details-card h2,
+.panch-details-card dd,
+.panch-details-period strong {
+  color: #30435f !important;
+}
+
+.panch-details-card dl > div,
+.panch-details-period {
+  border-color: #e9edf3;
+}
+
+.panch-back-button:focus-visible,
+.panch-period-row:focus-visible,
+.panch-details-button:focus-visible,
+.panch-icon-button:focus-visible,
+.panch-primary-button:focus-visible {
+  outline-color: #3479d0;
+}
+
+@media (max-width: 760px) {
+  .panch-highlight-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .panch-highlight-card {
+    min-width: 0;
+    min-height: 112px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-wrap: anywhere;
+    padding: 13px;
+    text-align: left;
+  }
+
+  .panch-highlight-card strong,
+  .panch-highlight-card > span {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+  }
+}
+
+.panch-highlight-card {
+  min-height: 158px;
+  justify-content: flex-start;
+  gap: 5px;
+  overflow: hidden;
+  border-radius: 15px;
+  padding: 13px 15px 15px;
+}
+
+.panch-period-ruler {
+  width: 100%;
+  margin-bottom: 7px;
+}
+
+.panch-timeline-row > .panch-period-ruler {
+  margin: 0;
+}
+
+.panch-period-ruler-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  overflow: hidden;
+  color: #617087;
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.panch-timeline-row .panch-period-ruler-labels {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 0;
+  margin-bottom: 2px;
+  overflow: visible;
+  color: #172439;
+  font-size: clamp(8px, 1.2vw, 12px);
+  text-align: center;
+}
+
+.panch-period-ruler-track {
+  position: relative;
+  height: 7px;
+  margin-top: 5px;
+  border-radius: 99px;
+  background: #dce9f8;
+}
+
+.panch-period-ruler-track > span {
+  position: absolute;
+  top: 50%;
+  min-width: 5px;
+  height: 4px;
+  border-radius: inherit;
+  background: #3479d0;
+  transform: translateY(-50%);
+}
+
+.panch-highlight-card.is-caution .panch-period-ruler-track > span {
+  background: #f0444d;
+}
+
+.panch-highlight-label {
+  color: #6e7f94;
+  font-size: 10px;
+}
+
+.panch-highlight-card strong {
+  color: #3479d0;
+  font-size: clamp(18px, 2.4vw, 25px);
+  line-height: 1.3;
+}
+
+.panch-highlight-card.is-good strong {
+  color: #25805d;
+}
+
+.panch-highlight-card.is-caution strong {
+  color: #f0444d;
+}
+
+.panch-highlight-times {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-top: auto;
+  color: #111827;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(16px, 2.2vw, 22px);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.panch-highlight-times time {
+  color: #172033;
+}
+
+.panch-highlight-times > span {
+  color: #8290a3;
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .panch-highlight-card {
+    min-height: 144px;
+    padding: 11px 12px 13px;
+  }
+
+  .panch-timeline-row .panch-period-ruler-labels {
+    font-size: 8px;
+  }
+
+  .panch-highlight-card strong {
+    font-size: clamp(15px, 4.2vw, 21px);
+  }
+
+  .panch-highlight-times {
+    gap: 5px;
+    font-size: clamp(13px, 3.7vw, 18px);
   }
 }

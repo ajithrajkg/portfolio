@@ -6,13 +6,11 @@ import {
   CalendarDays,
   ChevronRight,
   Clock3,
-  Database,
   House,
   MapPin,
   Moon,
   ShieldCheck,
   Sun,
-  Trash2,
 } from "lucide-react";
 import BirthDetailsForm from "./BirthDetailsForm";
 import DailyTimeGraph from "./DailyTimeGraph";
@@ -239,22 +237,6 @@ export default function PanchangamClient() {
     }
   }, []);
 
-  async function clearData() {
-    if (!window.confirm("ജനനവിവരങ്ങളും സൂക്ഷിച്ച പഞ്ചാംഗ ഡാറ്റയും ഈ ഉപകരണത്തിൽ നിന്ന് മായ്ക്കണോ?")) return;
-    try {
-      await LocalPanchangamStore.clear();
-      setProfile(null);
-      setRecord(null);
-      setSelectedDate("");
-      setToday("");
-      setEditing(true);
-      setError("");
-      setStale(false);
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "ഡാറ്റ മായ്ക്കാനായില്ല.");
-    }
-  }
-
   if (!storageReady) {
     return (
       <main className="panch-app" lang="ml">
@@ -409,23 +391,6 @@ export default function PanchangamClient() {
                   <DailyTimeGraph record={record} />
                 </div>
 
-                <section className="panch-highlight-grid">
-                  {record.periods.filter((period) => period.kind === "favorable").map((period) => (
-                    <article className="panch-highlight-card is-good" key={period.id}>
-                      <span className="panch-highlight-label">ശുഭമായി കണക്കാക്കുന്നത്</span>
-                      <strong>{period.malayalamName}</strong>
-                      <span>{formatTime(period.start, record.place.timeZone)} – {formatTime(period.end, record.place.timeZone)}</span>
-                    </article>
-                  ))}
-                  {record.periods.filter((period) => period.id === "rahu").map((period) => (
-                    <article className="panch-highlight-card is-caution" key={period.id}>
-                      <span className="panch-highlight-label">ശ്രദ്ധിക്കേണ്ട സമയം</span>
-                      <strong>{period.malayalamName}</strong>
-                      <span>{formatTime(period.start, record.place.timeZone)} – {formatTime(period.end, record.place.timeZone)}</span>
-                    </article>
-                  ))}
-                </section>
-
                 <button
                   ref={detailsTrigger}
                   className="panch-details-button"
@@ -435,16 +400,6 @@ export default function PanchangamClient() {
                   പൂർണ്ണ പഞ്ചാംഗ വിവരങ്ങൾ കാണുക <ChevronRight size={18} />
                 </button>
 
-                <footer className="panch-data-footer">
-                  <div>
-                    <Database size={15} />
-                    <span>ഈ ഉപകരണത്തിൽ സൂക്ഷിച്ചു · {online ? "ഓഫ്‌ലൈൻ ഗണന പിന്തുണയുണ്ട്" : "ഓഫ്‌ലൈൻ മോഡ്"}</span>
-                    <span className="panch-footer-dot">·</span>
-                    <span>കണക്കാക്കിയ സമയം {formatTime(record.calculatedAt, record.place.timeZone)}</span>
-                    {stale && <strong className="panch-stale-label">പഴയ ഡാറ്റ</strong>}
-                  </div>
-                  <button type="button" onClick={() => void clearData()}><Trash2 size={14} /> ഡാറ്റ മായ്ക്കുക</button>
-                </footer>
               </>
             ) : (
               <div className="panch-empty-state">
@@ -456,10 +411,6 @@ export default function PanchangamClient() {
           </>
         )}
 
-        <aside className="panch-disclaimer">
-          ജ്യോതിഷപരമായ സമയവിഭാഗങ്ങൾ പരമ്പരാഗത വ്യാഖ്യാനങ്ങളാണ്; ഫലങ്ങൾക്ക് ശാസ്ത്രീയ ഉറപ്പോ ഗ്യാരണ്ടിയോ നൽകുന്നില്ല.
-          പഞ്ചാംഗ ഘടകങ്ങൾ ജ്യോതിശാസ്ത്ര സ്ഥാനങ്ങളിൽ നിന്നുള്ള ഗണനകളാണ്.
-        </aside>
       </div>
     </main>
   );

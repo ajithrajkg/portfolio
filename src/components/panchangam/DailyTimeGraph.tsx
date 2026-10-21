@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { addCalendarDays, dateInTimeZone, formatTime, zonedDateTimeToUtc } from "@/lib/panchangam/date-time";
+import { addCalendarDays, formatTime, zonedDateTimeToUtc } from "@/lib/panchangam/date-time";
 import type { PanchangamRecord, PeriodKind, TimePeriod } from "@/lib/panchangam/types";
 
 type GraphRow = {
@@ -14,9 +14,9 @@ type GraphRow = {
 };
 
 const COLORS: Record<PeriodKind, string> = {
-  favorable: "#52bcff",
+  favorable: "#0869e8",
   neutral: "#ad7412",
-  inauspicious: "#d0362e",
+  inauspicious: "#ff1717",
 };
 
 function createRows(record: PanchangamRecord, fullDay: boolean): {
@@ -64,21 +64,30 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
   const [selected, setSelected] = useState<GraphRow | null>(null);
   const [currentTime, setCurrentTime] = useState<number | null>(null);
   const graph = useMemo(() => createRows(record, fullDay), [record, fullDay]);
-  const rangeStart = graph?.start.getTime() ?? 0;
-  const rangeEnd = graph?.end.getTime() ?? rangeStart;
-  const rangeDuration = rangeEnd - rangeStart;
+  const rulerStart = fullDay
+    ? graph?.start ?? zonedDateTimeToUtc(record.date, 0, 0, record.place.timeZone)
+    : zonedDateTimeToUtc(record.date, 6, 0, record.place.timeZone);
+  const rulerEnd = fullDay
+    ? graph?.end ?? zonedDateTimeToUtc(addCalendarDays(record.date, 1), 0, 0, record.place.timeZone)
+    : zonedDateTimeToUtc(record.date, 18, 0, record.place.timeZone);
+  const rulerStartTime = rulerStart.getTime();
+  const rulerDuration = rulerEnd.getTime() - rulerStartTime;
+  const tickHours = fullDay
+    ? Array.from({ length: 13 }, (_, index) => index * 2)
+    : Array.from({ length: 13 }, (_, index) => index + 6);
+  const tickTimes = tickHours.map((hour) => {
+    const tickDate = fullDay && hour === 24
+      ? zonedDateTimeToUtc(addCalendarDays(record.date, 1), 0, 0, record.place.timeZone)
+      : zonedDateTimeToUtc(record.date, hour, 0, record.place.timeZone);
+    return {
+      label: new Intl.DateTimeFormat("en-US", {
+        timeZone: record.place.timeZone,
+        hour: "numeric",
+      }).format(tickDate).replace(" ", "").toLowerCase(),
+      position: ((tickDate.getTime() - rulerStartTime) / rulerDuration) * 100,
+    };
+  });
   const now = currentTime === null ? null : new Date(currentTime);
-  const isCurrentDay = now !== null && record.date === dateInTimeZone(now, record.place.timeZone);
-  const nowPosition = isCurrentDay && rangeDuration && now
-    ? ((now.getTime() - rangeStart) / rangeDuration) * 100
-    : -1;
-  const ticks = graph
-    ? [0, 0.5, 1].map((fraction) => ({
-      fraction,
-      time: new Date(rangeStart + rangeDuration * fraction).toISOString(),
-    }))
-    : [];
-
   useEffect(() => {
     const updateCurrentTime = () => setCurrentTime(Date.now());
     updateCurrentTime();
@@ -129,11 +138,11 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
               {graph.rows.map((row) => {
                 const left = Math.max(
                   0,
-                  ((row.start.getTime() - rangeStart) / rangeDuration) * 100,
+                  ((row.start.getTime() - rulerStartTime) / rulerDuration) * 100,
                 );
                 const right = Math.min(
                   100,
-                  ((row.end.getTime() - rangeStart) / rangeDuration) * 100,
+                  ((row.end.getTime() - rulerStartTime) / rulerDuration) * 100,
                 );
                 const width = Math.max(0, right - left);
 
@@ -146,44 +155,41 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
                     aria-label={`${row.title}, ${formatTime(row.start.toISOString(), record.place.timeZone)} മുതൽ ${formatTime(row.end.toISOString(), record.place.timeZone)} വരെ. ${row.explanation}`}
                     onClick={() => choosePeriod(row)}
                   >
-                    <span className="panch-timeline-track">
-                      <span
-                        className={`panch-timeline-line is-${row.kind}${row.id === "abhijit" ? " is-abhijit" : ""}`}
-                        style={{
-                          left: `${left}%`,
-                          width: `${width}%`,
-                          backgroundColor: row.id === "abhijit" ? "#14e08e" : COLORS[row.kind],
-                        }}
-                      />
-                      {nowPosition >= 0 && nowPosition <= 100 && (
+                    <span className="panch-period-ruler" aria-hidden="true">
+                      <span className="panch-period-ruler-labels">
+                        {tickTimes.map((tick, index) => (
+                          <span key={`${tick.label}-${index}`}>{tick.label}</span>
+                        ))}
+                      </span>
+                      <span className="panch-timeline-track">
+                        {tickTimes.map((tick, index) => (
+                          <i
+                            className="panch-timeline-tick"
+                            key={`${tick.label}-${index}`}
+                            style={{ left: `${tick.position}%` }}
+                          />
+                        ))}
                         <span
-                          className="panch-timeline-now"
-                          style={{ left: `${nowPosition}%` }}
-                          aria-hidden="true"
-                        >
-                          <i />
-                        </span>
-                      )}
+                          className={`panch-timeline-line is-${row.kind}${row.id === "abhijit" ? " is-abhijit" : ""}`}
+                          style={{
+                            left: `${left}%`,
+                            width: `${width}%`,
+                            backgroundColor: row.id === "abhijit" ? "#14a86c" : COLORS[row.kind],
+                          }}
+                        />
+                      </span>
                     </span>
                     <span className="panch-timeline-label">
+                      <span>{row.title}</span>
                       <strong>
                         {formatTime(row.start.toISOString(), record.place.timeZone)}
                         {" – "}
                         {formatTime(row.end.toISOString(), record.place.timeZone)}
                       </strong>
-                      <span>{row.title}</span>
                     </span>
                   </button>
                 );
               })}
-            </div>
-            <div className="panch-timeline-axis" aria-hidden="true">
-              <span className="panch-timeline-axis-times">
-                <span>{ticks[0] && formatTime(ticks[0].time, record.place.timeZone)}</span>
-                <span>{ticks[1] && formatTime(ticks[1].time, record.place.timeZone)}</span>
-                <span>{ticks[2] && formatTime(ticks[2].time, record.place.timeZone)}</span>
-              </span>
-              <span />
             </div>
           </div>
           {selected && (
