@@ -10,7 +10,6 @@ import {
   MapPin,
   Moon,
   ShieldCheck,
-  Sun,
 } from "lucide-react";
 import BirthDetailsForm from "./BirthDetailsForm";
 import DailyTimeGraph from "./DailyTimeGraph";
@@ -303,15 +302,7 @@ export default function PanchangamClient() {
         )}
 
         {editing || !profile ? (
-          <section className="panch-intro">
-            <div className="panch-hero-copy">
-              <span className="panch-eyebrow"><Sun size={14} /> പ്രാദേശിക സമയവും പരമ്പരാഗത കണക്കുകളും</span>
-              <h1>ദിവസത്തിന്റെ താളം,<br /><em>നിങ്ങളുടെ സമയത്ത്.</em></h1>
-              <p>
-                ജനനവിവരങ്ങൾ ഒരിക്കൽ നൽകൂ. നിങ്ങൾ തിരഞ്ഞെടുത്ത സ്ഥലത്തിനായി
-                അടുത്ത മൂന്ന് മാസത്തെ പഞ്ചാംഗം ഈ ഉപകരണത്തിൽ തയ്യാറാക്കാം.
-              </p>
-            </div>
+          <section className="panch-intro panch-intro-form-only">
             <BirthDetailsForm
               key={profile ? "editing-profile" : "new-profile"}
               initialProfile={profile}

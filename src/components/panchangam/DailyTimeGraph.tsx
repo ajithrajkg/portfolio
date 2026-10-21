@@ -127,7 +127,7 @@ export default function DailyTimeGraph({ record }: DailyTimeGraphProps) {
       {graph?.rows.length ? (
         <div className="panch-chart-legend" aria-label="സമയങ്ങളുടെ അടയാളങ്ങൾ">
           <span><i className="is-favorable" /> ശുഭം</span>
-          <span><i className="is-abhijit" /> അഭിജിത് മുഹൂർത്തം</span>
+          <span><i className="is-abhijit" /> അഭിജിത് മുഹൂർത്തം (ശുഭം)</span>
           <span><i className="is-inauspicious" /> ശ്രദ്ധിക്കേണ്ടത്</span>
         </div>
       ) : null}

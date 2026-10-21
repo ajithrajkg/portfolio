@@ -108,15 +108,6 @@ export default function PlaceSelector({ id, label, value, onChange, error }: Pla
           </ul>
         )}
       </div>
-      {value && (
-        <p className="panch-field-hint">
-          {value.district && selectedDistrict
-            ? `${selectedDistrict.name} ജില്ലയുടെ സൂചനാകേന്ദ്രം · `
-            : ""}
-          {value.latitude.toFixed(4)}, {value.longitude.toFixed(4)} · {value.timeZone}
-        </p>
-      )}
-      <p className="panch-field-hint">കേരളത്തിലെ ജില്ലകൾ മാത്രം തിരഞ്ഞെടുക്കാം. OpenStreetMap സംഭാവകരുടെ ജില്ലാ സൂചനാകേന്ദ്രങ്ങളാണ് ഉപയോഗിക്കുന്നത്.</p>
       {error && (
         <p className="panch-form-error" id={error ? `place-error-${id}` : undefined} role="alert">
           {error}

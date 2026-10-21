@@ -19,6 +19,9 @@ export default function BirthDetailsForm({
 }: BirthDetailsFormProps) {
   const [dateOfBirth, setDateOfBirth] = useState(initialProfile?.dateOfBirth ?? "");
   const [timeOfBirth, setTimeOfBirth] = useState(initialProfile?.timeOfBirth ?? "");
+  const [timePeriod, setTimePeriod] = useState<"AM" | "PM">(
+    initialProfile?.timeOfBirth && Number(initialProfile.timeOfBirth.slice(0, 2)) >= 12 ? "PM" : "AM",
+  );
   const [birthPlace, setBirthPlace] = useState<Place | null>(
     initialProfile?.placeOfBirth && isKeralaDistrictPlace(initialProfile.placeOfBirth)
       ? initialProfile.placeOfBirth
@@ -30,6 +33,16 @@ export default function BirthDetailsForm({
       : null,
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  function selectTimePeriod(period: "AM" | "PM") {
+    setTimePeriod(period);
+    if (!timeOfBirth) return;
+
+    const [hourText, minute] = timeOfBirth.split(":");
+    const hour = Number(hourText);
+    const convertedHour = period === "PM" ? (hour % 12) + 12 : hour % 12;
+    setTimeOfBirth(`${String(convertedHour).padStart(2, "0")}:${minute}`);
+  }
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -73,14 +86,32 @@ export default function BirthDetailsForm({
         </div>
         <div className="panch-field">
           <label htmlFor="birth-time">ജനനസമയം</label>
-          <input
-            id="birth-time"
-            type="time"
-            value={timeOfBirth}
-            onChange={(event) => setTimeOfBirth(event.target.value)}
-            aria-invalid={Boolean(errors.time)}
-            aria-describedby={errors.time ? "birth-time-error" : undefined}
-          />
+          <div className="panch-time-input">
+            <input
+              id="birth-time"
+              type="time"
+              value={timeOfBirth}
+              onChange={(event) => {
+                const value = event.target.value;
+                setTimeOfBirth(value);
+                if (value) setTimePeriod(Number(value.slice(0, 2)) >= 12 ? "PM" : "AM");
+              }}
+              aria-invalid={Boolean(errors.time)}
+              aria-describedby={errors.time ? "birth-time-error" : undefined}
+            />
+            <div className="panch-time-period" role="group" aria-label="AM അല്ലെങ്കിൽ PM തിരഞ്ഞെടുക്കുക">
+              {(["AM", "PM"] as const).map((period) => (
+                <button
+                  key={period}
+                  type="button"
+                  aria-pressed={timePeriod === period}
+                  onClick={() => selectTimePeriod(period)}
+                >
+                  {period}
+                </button>
+              ))}
+            </div>
+          </div>
           {errors.time && <p className="panch-form-error" id="birth-time-error">{errors.time}</p>}
         </div>
         <PlaceSelector

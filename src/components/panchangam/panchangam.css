@@ -217,6 +217,15 @@
   padding: 34px 0 0;
 }
 
+.panch-intro-form-only {
+  grid-template-columns: minmax(0, 680px);
+  justify-content: center;
+}
+
+.panch-intro-form-only .panch-privacy-note {
+  grid-column: 1;
+}
+
 .panch-hero-copy {
   padding: 21px 0;
 }
@@ -333,8 +342,69 @@
   box-shadow: 0 0 0 3px #c6ac6820;
 }
 
-.panch-field input[aria-invalid="true"] {
+.panch-field input[aria-invalid="true"],
+.panch-time-input input[aria-invalid="true"] {
   border-color: #d77d74;
+}
+
+.panch-time-input {
+  display: flex;
+  min-width: 0;
+  gap: 7px;
+}
+
+.panch-time-input > input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  min-height: 42px;
+  border: 1px solid #e2e6df;
+  border-radius: 9px;
+  outline: none;
+  padding: 0 11px;
+  background: #fcfcfa;
+  color: #27394b;
+  font: inherit;
+  font-size: 12px;
+}
+
+.panch-time-input > input:focus {
+  border-color: #aa9259;
+  box-shadow: 0 0 0 3px #c6ac6820;
+}
+
+.panch-time-period {
+  display: flex;
+  flex: none;
+  align-self: stretch;
+  overflow: hidden;
+  border: 1px solid #dce3eb;
+  border-radius: 9px;
+  background: #f3f6fa;
+}
+
+.panch-time-period button {
+  min-width: 38px;
+  border: 0;
+  padding: 0 8px;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.panch-time-period button[aria-pressed="true"] {
+  background: #203a52;
+  color: #fff;
+}
+
+.panch-time-period button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid #aa9259;
+  outline-offset: -3px;
 }
 
 .panch-place-wrap {
