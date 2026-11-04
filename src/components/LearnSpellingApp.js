@@ -35,7 +35,10 @@ export default function LearnSpellingApp() {
           english: item.english,
           malayalam: item.malayalam,
         }));
-        if (active) setItems(savedItems);
+        if (active) {
+          setItems(savedItems);
+          setShowAll(true);
+        }
       } catch (error) {
         if (active) setStatus(error.message || "Could not load saved text.");
       } finally {
