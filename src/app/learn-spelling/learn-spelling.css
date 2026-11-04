@@ -1,0 +1,85 @@
+body:has(.e2m-shell) > header, body:has(.e2m-shell) > footer { display:none !important; }
+body:has(.e2m-shell) > main { padding-top:0 !important; }
+.e2m-shell {
+  --ink:#101638; --muted:#596181; --line:#e2e1f2; min-height:100vh; padding:0 24px 64px; color:var(--ink);
+  background:radial-gradient(ellipse at 50% 28%,#fff 0,#f8f6ff 30%,transparent 63%),linear-gradient(145deg,#f7f4ff,#eae5ff 70%,#f7f4ff);
+  font-family:Arial,"Noto Sans Malayalam",sans-serif;
+}
+.e2m-header { min-height:120px; max-width:1680px; margin:0 auto 54px; padding:18px max(7vw,24px); display:flex; align-items:center; gap:28px; border-radius:0 0 24px 24px; background:#ffffffd9; box-shadow:0 10px 36px #3f2ab414; }
+.e2m-brand { display:flex; align-items:center; gap:28px; color:var(--ink); text-decoration:none; }
+.e2m-mark { width:98px; height:80px; display:grid; place-items:center; border-radius:19px; background:linear-gradient(145deg,#5542ff,#2510c7); color:white; font-size:34px; font-weight:800; }
+.e2m-name { font-size:56px; line-height:1; font-weight:800; letter-spacing:-2px; }
+.e2m-divider { height:64px; width:2px; background:#c7c6dc; }
+.e2m-heading { display:grid; gap:5px; }
+.e2m-heading strong { color:#1710a5; font-size:28px; }
+.e2m-heading strong span { padding:0 8px; }
+.e2m-heading small { color:var(--muted); font-size:21px; }
+.e2m-tools { display:flex; gap:18px; margin-left:auto; }
+.e2m-tools button,.e2m-item button,.e2m-all { display:inline-flex; align-items:center; justify-content:center; gap:12px; border:1px solid #d8d6ef; border-radius:15px; color:#23274d; background:#ffffffc7; font:inherit; font-weight:650; cursor:pointer; }
+.e2m-tools button { width:56px; height:56px; color:#505579; }
+.e2m-tools svg { width:27px; height:27px; }
+.e2m-card { width:min(1390px,100%); margin:0 auto; padding:38px 50px 58px; border:1px solid #ffffffe6; border-radius:24px; background:#ffffffe6; box-shadow:0 24px 65px #36259621; }
+.e2m-entry label { display:block; margin:0 0 12px; font-size:30px; font-weight:750; }
+.e2m-entry-row { display:grid; grid-template-columns:minmax(0,1fr) 185px 215px; gap:24px; }
+.e2m-entry input { min-width:0; height:82px; padding:0 30px; border:2px solid #d1cee8; border-radius:16px; outline:0; color:var(--ink); background:white; font:inherit; font-size:28px; }
+.e2m-entry input:focus { border-color:#7462ee; box-shadow:0 0 0 4px #5942f21a; }
+.e2m-entry input::placeholder { color:#9699b3; }
+.e2m-add,.e2m-all { height:82px; font-size:25px; }
+.e2m-add { display:inline-flex; align-items:center; justify-content:center; gap:12px; border:0; border-radius:16px; background:linear-gradient(140deg,#5140f4,#2c12c9); color:white; font:inherit; font-size:25px; font-weight:700; cursor:pointer; }
+.e2m-add svg,.e2m-all svg { width:31px; height:31px; }
+.e2m-all { color:#2510bc; background:#f1efff; }
+.e2m-list { margin-top:46px; padding:12px 17px; border:2px solid var(--line); border-radius:17px; }
+.e2m-item { min-height:79px; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:10px 8px 10px 20px; }
+.e2m-item + .e2m-item { border-top:2px solid #e9e8f3; }
+.e2m-item > span { font-size:29px; font-weight:700; }
+.e2m-item button { min-width:182px; height:61px; font-size:21px; }
+.e2m-item button svg { width:25px; height:25px; color:#62688f; }
+.e2m-dialog-backdrop { position:fixed; inset:0; z-index:50; display:grid; place-items:center; padding:24px; background:#16143a77; }
+.e2m-dialog { position:relative; width:min(480px,100%); padding:35px; border-radius:20px; background:white; box-shadow:0 20px 70px #16143a44; }
+.e2m-dialog h2 { margin:0 0 12px; font-size:26px; }
+.e2m-dialog p { margin:0; color:#596181 !important; line-height:1.6; }
+.e2m-dialog-close { position:absolute; top:14px; right:14px; border:0; background:transparent; cursor:pointer; }
+.e2m-dark { --ink:#f1efff; --muted:#c5c2e2; --line:#393655; color:var(--ink); background:radial-gradient(ellipse at 50% 28%,#292644,#17152b 50%,#12111f); }
+.e2m-dark .e2m-header,.e2m-dark .e2m-card { background:#1e1c52ed; }
+.e2m-dark .e2m-brand,.e2m-dark .e2m-item button,.e2m-dark .e2m-tools button { color:#eeeaff; }
+.e2m-dark .e2m-divider,.e2m-dark .e2m-item + .e2m-item { border-color:#494663; }
+.e2m-dark .e2m-entry input,.e2m-dark .e2m-item button,.e2m-dark .e2m-tools button { background:#26243e; border-color:#494663; }
+.e2m-dark .e2m-entry input { color:white; }
+.e2m-dark .e2m-all { background:#312b55; color:#e2dcff; border-color:#514879; }
+@media(max-width:900px) {
+ .e2m-header { min-height:92px; margin-bottom:32px; padding:15px 22px; gap:17px; }
+ .e2m-mark { width:62px; height:58px; border-radius:13px; font-size:24px; }
+ .e2m-brand { gap:15px; } .e2m-name { font-size:38px; }
+ .e2m-heading strong { font-size:19px; } .e2m-heading small { font-size:15px; }
+ .e2m-tools { gap:8px; } .e2m-tools button { width:44px; height:44px; }
+ .e2m-card { padding:30px; } .e2m-entry-row { grid-template-columns:minmax(0,1fr) auto auto; gap:12px; }
+ .e2m-entry input { height:65px; font-size:20px; }
+ .e2m-add,.e2m-all { height:65px; padding:0 18px; font-size:18px; }
+ .e2m-item > span { font-size:23px; }
+}
+@media(max-width:620px) {
+ .e2m-shell { padding:0 12px 35px; }
+ .e2m-header { min-height:75px; margin-bottom:24px; padding:12px; gap:11px; border-radius:0 0 17px 17px; }
+ .e2m-brand { gap:0; } .e2m-mark { width:48px; height:46px; font-size:19px; }
+ .e2m-name,.e2m-divider { display:none; } .e2m-heading strong { font-size:15px; white-space:nowrap; }
+ .e2m-heading small { font-size:12px; } .e2m-tools { gap:5px; }
+ .e2m-tools button { width:36px; height:36px; border-radius:11px; } .e2m-tools svg { width:19px; height:19px; }
+ .e2m-card { padding:23px 15px 26px; border-radius:19px; } .e2m-entry label { font-size:23px; }
+ .e2m-entry-row { grid-template-columns:1fr 1fr; gap:9px; }
+ .e2m-entry input { grid-column:1/-1; height:58px; padding:0 15px; font-size:18px; }
+ .e2m-add,.e2m-all { height:53px; padding:0 8px; gap:7px; font-size:16px; }
+ .e2m-add svg,.e2m-all svg { width:22px; height:22px; }
+ .e2m-list { margin-top:27px; padding:7px; }
+ .e2m-item { min-height:64px; padding:8px 3px 8px 8px; gap:8px; } .e2m-item > span { font-size:18px; }
+ .e2m-item button { min-width:90px; height:43px; gap:6px; font-size:14px; }
+ .e2m-item button svg { width:18px; height:18px; }
+}
+
+.e2m-item-actions { display:flex; align-items:center; gap:10px; }
+.e2m-item .e2m-delete { min-width:61px; width:61px; color:#b4233c; background:#fff5f6; border-color:#f1cbd1; }
+.e2m-item .e2m-delete svg { color:inherit; }
+.e2m-dark .e2m-item .e2m-delete { color:#ff9aaa; background:#452532; border-color:#70404c; }
+@media(max-width:620px) {
+ .e2m-item-actions { gap:6px; }
+ .e2m-item .e2m-delete { min-width:43px; width:43px; }
+}

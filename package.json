@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@netlify/blobs": "^11.1.7",
     "@netlify/plugin-nextjs": "^5.15.10",
     "astronomy-engine": "^2.1.19",
     "framer-motion": "^12.38.0",
