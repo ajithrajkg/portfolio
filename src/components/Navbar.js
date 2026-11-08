@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaLinkedinIn } from "react-icons/fa";
-import { Code2, ChevronDown, NotebookPen, Palette, Pencil, Sparkles, Video } from "lucide-react";
+import { Code2, ChevronDown, NotebookPen, Palette, Pencil, Sparkles } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -79,14 +79,6 @@ export default function Navbar() {
               </button>
               {productsOpen && (
                 <div className="absolute left-1/2 top-full z-10 mt-3 grid w-80 -translate-x-1/2 gap-2 rounded-xl border border-slate-200 bg-white p-3 shadow-xl">
-                  <Link
-                    href="/products"
-                    onClick={() => setProductsOpen(false)}
-                    className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-red-200 hover:bg-red-50"
-                  >
-                    <Video className="mt-0.5 shrink-0 text-red-600" size={20} />
-                    <span><strong className="block text-sm text-slate-900">Video Downloader</strong><small className="mt-1 block text-xs font-normal text-slate-500">YouTube, Facebook, and Instagram downloads.</small></span>
-                  </Link>
                   <Link
                     href="/code-editor"
                     onClick={() => setProductsOpen(false)}
@@ -204,16 +196,6 @@ export default function Navbar() {
             </button>
             {productsOpen && (
               <>
-                <Link
-                  href="/products"
-                  onClick={() => {
-                    setOpen(false);
-                    setProductsOpen(false);
-                  }}
-                  className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
-                >
-                  Video Downloader
-                </Link>
                 <Link
                   href="/code-editor"
                   onClick={() => {

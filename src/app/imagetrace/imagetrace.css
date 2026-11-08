@@ -260,8 +260,14 @@ body:has(.imagetrace-app) > main {
   cursor: pointer;
 }
 
-.trace-fit-actions button:last-child {
+.trace-fit-actions button.trace-mirror-button {
   grid-column: span 2;
+}
+
+.trace-fit-actions button.trace-mirror-button.is-active {
+  border-color: #d7ad7870;
+  background: #d7ad7815;
+  color: #e0bc8e;
 }
 
 .trace-fit-actions button:hover:not(:disabled),

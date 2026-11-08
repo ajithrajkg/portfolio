@@ -26,7 +26,7 @@ type InstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 };
 type RecentImage = StoredTraceImage & { previewUrl: string };
-type Transform = { x: number; y: number; scale: number; rotation: number };
+type Transform = { x: number; y: number; scale: number; rotation: number; mirrored: boolean };
 type Point = { x: number; y: number };
 type Gesture = { center: Point; distance: number; transform: Transform };
 type WakeLockLike = {
@@ -39,7 +39,7 @@ type NavigatorWithWakeLock = Navigator & {
 
 const PREFERENCES_KEY = "imagetrace-preferences-v1";
 const LAST_IMAGE_KEY = "imagetrace-last-image-v1";
-const INITIAL_TRANSFORM: Transform = { x: 0, y: 0, scale: 1, rotation: 0 };
+const INITIAL_TRANSFORM: Transform = { x: 0, y: 0, scale: 1, rotation: 0, mirrored: false };
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 8;
 const SUPPORTED_IMAGE = /\.(jpe?g|png|webp)$/i;
@@ -272,7 +272,7 @@ export default function ImageTraceApp() {
     context.save();
     context.translate(canvasSize.width / 2 + transform.x, canvasSize.height / 2 + transform.y);
     context.rotate((transform.rotation * Math.PI) / 180);
-    context.scale(fitScale * transform.scale, fitScale * transform.scale);
+    context.scale((transform.mirrored ? -1 : 1) * fitScale * transform.scale, fitScale * transform.scale);
     const effectContrast = lineArt ? Math.max(contrast, 190) : contrast;
     context.filter = `brightness(${brightness}%) contrast(${effectContrast}%) grayscale(${grayscale || lineArt ? 1 : 0})`;
     context.drawImage(source, -source.naturalWidth / 2, -source.naturalHeight / 2);
@@ -399,7 +399,11 @@ export default function ImageTraceApp() {
       (canvasSize.height * 0.88) / source.naturalHeight,
     );
     const fill = Math.max(canvasSize.width / source.naturalWidth, canvasSize.height / source.naturalHeight);
-    setTransform({ ...INITIAL_TRANSFORM, scale: mode === "fit" ? 1 : Math.min(MAX_ZOOM, fill / fit) });
+    setTransform((current) => ({
+      ...INITIAL_TRANSFORM,
+      mirrored: current.mirrored,
+      scale: mode === "fit" ? 1 : Math.min(MAX_ZOOM, fill / fit),
+    }));
   }
 
   function maximumZoom() {
@@ -548,6 +552,17 @@ export default function ImageTraceApp() {
                 <button type="button" onClick={() => fitImage("fit")} disabled={!image || locked}>Fit screen</button>
                 <button type="button" onClick={() => fitImage("fill")} disabled={!image || locked}>Fill screen</button>
                 <button type="button" onClick={maximumZoom} disabled={!image || locked}>Maximum zoom</button>
+                <button
+                  className={`trace-mirror-button${transform.mirrored ? " is-active" : ""}`}
+                  type="button"
+                  aria-pressed={transform.mirrored}
+                  onClick={() => {
+                    if (!image || locked) return;
+                    setTransform((current) => ({ ...current, mirrored: !current.mirrored }));
+                  }}
+                >
+                  Mirror image
+                </button>
               </div>
               <div className="trace-zoom-label"><span>Zoom</span><strong>{Math.round(transform.scale * 100)}%</strong></div>
               <div className="trace-zoom-control">
