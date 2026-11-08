@@ -12,19 +12,35 @@ export async function POST(request) {
     }
 
     const apiUrl = process.env.VIDEO_DOWNLOADER_API_URL || "https://api.cobalt.tools";
+    const apiKey = process.env.VIDEO_DOWNLOADER_API_KEY;
+    const authScheme = process.env.VIDEO_DOWNLOADER_AUTH_SCHEME || "Api-Key";
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        ...(apiKey ? { Authorization: `${authScheme} ${apiKey}` } : {}),
       },
       body: JSON.stringify({ url }),
     });
     const data = await response.json();
 
     if (!response.ok || data.status === "error") {
+      const serviceCode = data.error?.code;
+      if (serviceCode === "api.auth.jwt.missing" && !apiKey) {
+        return NextResponse.json(
+          { error: "The downloader API requires authentication. Add VIDEO_DOWNLOADER_API_KEY to the environment." },
+          { status: 503 },
+        );
+      }
+      if (typeof serviceCode === "string" && serviceCode.startsWith("api.auth")) {
+        return NextResponse.json(
+          { error: "The downloader API rejected the configured authentication. Check the API key and VIDEO_DOWNLOADER_AUTH_SCHEME." },
+          { status: 503 },
+        );
+      }
       return NextResponse.json(
-        { error: data.error?.code || data.text || "The video could not be processed." },
+        { error: serviceCode || data.text || "The video could not be processed." },
         { status: 422 },
       );
     }
