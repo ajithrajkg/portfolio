@@ -8,13 +8,9 @@ export default function Home() {
   return (
     <div>
       <Banner
-        title="Welcome to My Portfolio"
-        subtitle="Explore my projects and skills"
-        ctaText="Get Started"
+        ctaText="Explore My Work"
         ctaLink="#professional-summary"
-        imageSrc="/ajith-banner.png"
-        imageAlt="Ajith Raj profile photo"
-        showImage={false}
+        imageAlt="Ajith Raj, UI Engineering Lead, Frontend Developer and Creative Artist"
       />
 
       <ProfileSummary />

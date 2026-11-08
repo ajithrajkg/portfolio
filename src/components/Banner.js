@@ -3,11 +3,8 @@
 import Image from "next/image";
 
 export default function Banner({
-  title,
-  subtitle,
   ctaText,
   ctaLink,
-  imageSrc = "/logo.png",
   imageAlt = "Profile photo",
 }) {
   const handleScroll = (event) => {
@@ -26,39 +23,23 @@ export default function Banner({
   };
 
   return (
-    <section className="relative isolate overflow-hidden w-full bg-slate-950 text-white py-20 px-6 shadow-2xl min-h-[45rem] flex items-center justify-center">
-      <div className="absolute inset-[-8px] bg-[url('/banner.png')] bg-cover bg-center blur-[0]" />
-      <div className="absolute inset-0 bg-slate-950/35" />
-      <div className="relative z-10 max-w-4xl rounded-3xl border border-white/10 bg-white/10 px-8 py-12 text-center shadow-2xl backdrop-blur-md sm:px-12 md:px-16">
-        <div className="mb-6 mx-auto flex w-fit rounded-full border-4 border-white/80 bg-white/10 p-1 shadow-2xl backdrop-blur-sm">
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            width={120}
-            height={120}
-            unoptimized
-            className="h-28 w-28 rounded-full object-cover md:h-32 md:w-32"
-          />
-        </div>
-
-        <div className="mx-auto inline-flex max-w-[90%] items-center justify-center rounded-full border border-white/25 bg-white/15 px-5 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.18)] backdrop-blur-md sm:px-6">
-          <h2 className="text-3xl font-bold leading-tight tracking-tight text-white md:text-5xl">
-            {title || "Welcome to Our Platform"}
-          </h2>
-        </div>
-        <p className="mt-5 max-w-2xl text-lg !text-white md:text-xl">
-          {subtitle || "Build something amazing with our tools"}
-        </p>
-        {ctaText && (
-          <a
-            href={ctaLink || "#"}
-            onClick={handleScroll}
-            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-blue-700 transition-colors duration-200 hover:bg-gray-100"
-          >
-            {ctaText}
-          </a>
-        )}
-      </div>
+    <section className="relative isolate overflow-hidden bg-slate-950 shadow-2xl">
+      <a
+        href={ctaLink || "#professional-summary"}
+        onClick={handleScroll}
+        aria-label={ctaText || "Explore my work"}
+        className="block w-full overflow-hidden"
+      >
+        <Image
+          src="/ajith-dashboard.png"
+          alt={imageAlt}
+          width={1500}
+          height={780}
+          priority
+          unoptimized
+          className="block h-auto w-full object-cover"
+        />
+      </a>
     </section>
   );
 }

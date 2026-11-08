@@ -100,22 +100,32 @@ export default function LearnSpellingApp() {
     <div className={"e2m-shell" + (dark ? " e2m-dark" : "")}>
       <header className="e2m-header">
         <a className="e2m-brand" href="/learn-spelling/" aria-label="E2M home">
-          <span className="e2m-mark">E2M</span><span className="e2m-name">E2M</span>
+          <span className="e2m-mark">E2M</span>
+          <span className="e2m-brand-copy">
+            <strong>Spellbridge</strong>
+            <small>English to Malayalam</small>
+          </span>
         </a>
-        <span className="e2m-divider" />
-        <div className="e2m-heading">
-          <strong>English <span>→</span> മലയാളം</strong>
-          <small>Phonetic Transliteration</small>
-        </div>
         <div className="e2m-tools">
-          <button aria-label="Toggle theme" onClick={() => setDark(!dark)}>{dark ? <Sun /> : <Moon />}</button>
-          <button aria-label="About E2M" onClick={() => setDialog("about")}><Info /></button>
-          <button aria-label="Settings" onClick={() => setDialog("settings")}><Settings /></button>
+          <button aria-label="Toggle theme" title="Toggle theme" onClick={() => setDark(!dark)}>{dark ? <Sun /> : <Moon />}</button>
+          <button aria-label="About E2M" title="About E2M" onClick={() => setDialog("about")}><Info /></button>
+          <button aria-label="Settings" title="Settings" onClick={() => setDialog("settings")}><Settings /></button>
         </div>
       </header>
-      <main className="e2m-card">
+      <main className="e2m-main">
+        <section className="e2m-intro">
+          <div>
+            <p className="e2m-eyebrow">Malayalam word studio</p>
+            <h1>Turn English into <em>Malayalam.</em></h1>
+          </div>
+          <p className="e2m-intro-copy">Type, transliterate, and keep a personal collection of words for easy practice.</p>
+        </section>
+        <section className="e2m-card">
         <form className="e2m-entry" onSubmit={addText}>
-          <label htmlFor="e2m-input">Text</label>
+          <div className="e2m-entry-label">
+            <label htmlFor="e2m-input">Add new text</label>
+            <span>English</span>
+          </div>
           <div className="e2m-entry-row">
             <input id="e2m-input" value={text} onChange={(event) => setText(event.target.value)} placeholder="Type English text here..." autoComplete="off" />
             <button className="e2m-add" type="submit" disabled={saving || loading}><Plus /> {saving ? "Saving..." : "Add"}</button>
@@ -124,6 +134,10 @@ export default function LearnSpellingApp() {
         </form>
         {status && <p className="e2m-status" role="status">{status}</p>}
         <section className="e2m-list" aria-label="Transliterated words">
+          {!loading && items.length > 0 && <div className="e2m-list-heading">
+            <div><span>Your collection</span><small>{items.length} {items.length === 1 ? "word" : "words"} saved</small></div>
+            <span className="e2m-script">മലയാളം</span>
+          </div>}
           {loading ? <p className="e2m-empty">Loading saved words...</p> : items.length === 0 ? <p className="e2m-empty">No saved words yet. Add text above.</p> : (showAll ? items : items.slice(0, 5)).map((item) => {
             const isShown = !!shown[item.id];
             return <article className="e2m-item" key={item.id}>
@@ -138,6 +152,7 @@ export default function LearnSpellingApp() {
               </div>
             </article>;
           })}
+        </section>
         </section>
       </main>
       {dialog && <div className="e2m-dialog-backdrop" onClick={() => setDialog("")}>

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaLinkedinIn } from "react-icons/fa";
-import { Code2, ChevronDown, NotebookPen, Palette, Pencil, SpellCheck, Sparkles } from "lucide-react";
+import { Code2, ChevronDown, NotebookPen, Palette, Pencil, Sparkles } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -19,7 +19,7 @@ export default function Navbar() {
   const isHomeActive = currentPath === "/";
   const isGalleryActive = currentPath === "/gallery";
   const isAboutActive = currentPath === "/about";
-  const isProductsActive = ["/products", "/code-editor", "/svg-color", "/notepad", "/panchangam", "/tracedraw", "/imagetrace", "/learn-spelling"].includes(currentPath);
+  const isProductsActive = ["/products", "/code-editor", "/svg-color", "/notepad", "/panchangam", "/tracedraw", "/imagetrace"].includes(currentPath);
   const isContactActive = currentPath === "/contact";
 
   useEffect(() => {
@@ -102,14 +102,6 @@ export default function Navbar() {
                   >
                     <NotebookPen className="mt-0.5 shrink-0 text-amber-700" size={20} />
                     <span><strong className="block text-sm text-slate-900">Download Notepad</strong><small className="mt-1 block text-xs font-normal text-slate-500">Install the offline app on your device.</small></span>
-                  </Link>
-                  <Link
-                    href="/learn-spelling"
-                    onClick={() => setProductsOpen(false)}
-                    className="flex items-start gap-3 rounded-lg border border-slate-100 p-3 text-left transition hover:border-violet-200 hover:bg-violet-50"
-                  >
-                    <SpellCheck className="mt-0.5 shrink-0 text-violet-600" size={20} />
-                    <span><strong className="block text-sm text-slate-900">Learn Spelling</strong><small className="mt-1 block text-xs font-normal text-slate-500">Write English words in Malayalam script.</small></span>
                   </Link>
                   <Link
                     href="/panchangam"
@@ -233,16 +225,6 @@ export default function Navbar() {
                   className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
                 >
                   Download Notepad
-                </Link>
-                <Link
-                  href="/learn-spelling"
-                  onClick={() => {
-                    setOpen(false);
-                    setProductsOpen(false);
-                  }}
-                  className="mt-2 block pl-4 text-sm text-slate-600 hover:text-blue-600"
-                >
-                  Learn Spelling
                 </Link>
                 <Link
                   href="/panchangam"
