@@ -1,11 +1,11 @@
-import { redirect } from "next/navigation";
+import DownloadersPage from "@/components/DownloadersPage";
 
 export const metadata = {
-  title: "Code Editor | Online HTML, CSS & JavaScript Editor",
+  title: "Video Downloaders | YouTube, Facebook & Instagram",
   description:
-    "Code Editor is a fast online HTML, CSS, and JavaScript editor with a live preview. Write code, run it instantly, and test your web ideas in the browser.",
+    "Download videos from YouTube, Facebook, and Instagram from one simple page.",
 };
 
 export default function ProductsPage() {
-  redirect("/code-editor");
+  return <DownloadersPage />;
 }
